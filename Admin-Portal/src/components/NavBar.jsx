@@ -70,7 +70,7 @@ function NavBar() {
               </details>
             </li>
             <li>
-              <a>Item 3</a>
+              <a>Fuel Stations</a>
             </li>
           </ul>
         </div>
