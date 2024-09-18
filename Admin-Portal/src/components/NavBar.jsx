@@ -1,7 +1,64 @@
+import { FaRegUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 function NavBar() {
+  const [isSticky, setSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 0) {
+        setSticky(true);
+      } else {
+        setSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const navItems = (
+    <>
+      <li>
+        <a className="text-black" href="/">
+          Home
+        </a>
+      </li>
+      <li>
+        <a className="text-black" href="/menu">
+          About
+        </a>
+      </li>
+
+      <li>
+        <details>
+          <summary>Management Page</summary>
+          <ul className="p-2">
+            <li>
+              <a href="/order">Vehical Management Page</a>
+            </li>
+            <li>
+              <a href="/accepted-orders">Fuel Station Management Page</a>
+            </li>
+           
+          </ul>
+        </details>
+      </li>
+     
+    </>
+  );
   return (
-    <header>
-      <div className="bg-blue-100 navbar">
+    <header
+      className={`container mx-auto max-w-screen-2xl ${
+        isSticky ? "sticky top-0 bg-white z-10 shadow" : ""
+      }`}
+    >
+      <div className="navbar xl:px-24 ">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -22,60 +79,32 @@ function NavBar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
-                <a>Home</a>
-              </li>
-              <li>
-                <a>About</a>
-              </li>
-              <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a>Item 3</a>
-              </li>
+              {navItems}
             </ul>
           </div>
-          <a className="text-xl btn btn-ghost">Admin Portal</a>
+          <a href="/">
+            <p className="text-2xl text-bold" style={{ width: "200px" }}>
+              <span className="text-2xl text-bold text-green">Admin</span>
+              Portal
+            </p>
+          </a>
+          {/* <a href="/">
+          <img src={logo}></img>
+        </a> */}
         </div>
         <div className="hidden navbar-center lg:flex">
-          <ul className="px-1 menu menu-horizontal">
-            <li>
-              <a>Home</a>
-            </li>
-            <li>
-              <a>About</a>
-            </li>
-            <li>
-              <details>
-                <summary>Parent</summary>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <a>Fuel Stations</a>
-            </li>
-          </ul>
+          <ul className="px-1 menu menu-horizontal">{navItems}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+         
+        
+
+          <button className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green">
+            <FaRegUser />
+            Login
+          </button>
         </div>
       </div>
     </header>
