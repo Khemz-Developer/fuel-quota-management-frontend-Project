@@ -31,8 +31,8 @@ function NavBar() {
         </a>
       </li>
       <li>
-        <a className="text-black" href="/menu">
-          About
+        <a className="text-black" href="/dashboard">
+          DashBoard
         </a>
       </li>
 
