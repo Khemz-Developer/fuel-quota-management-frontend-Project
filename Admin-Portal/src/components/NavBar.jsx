@@ -1,6 +1,7 @@
 import { FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Modal from "./SignInModal";
 
 function NavBar() {
   const [isSticky, setSticky] = useState(false);
@@ -101,10 +102,11 @@ function NavBar() {
          
         
 
-          <button className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green">
+          <button  onClick={() => document.getElementById("my_modal_5").showModal()} className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green">
             <FaRegUser />
             Login
           </button>
+          <Modal />
         </div>
       </div>
     </header>

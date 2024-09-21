@@ -1,9 +1,9 @@
 const Banner = () => {
     return (
       <div className="section-container bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
-        <div className="flex items-center justify-between gap-12 py-24 md:flex-row-reverse">
+        <div className="flex items-center justify-between gap-0 py-24 md:flex-row-reverse">
           {/* Image */}
-          <div className="ml-10 md:w-1/2"> {/* Increase width and move right */}
+          <div className="ml-10"> {/* Increase width and move right */}
             <img src="/images/home/banner2.png" alt="" className="w-full transition-all duration-500 animate-zoomIn hover:rotate-1" /> {/* Make image take full width */}
           </div>
   
