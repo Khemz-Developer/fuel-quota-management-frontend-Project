@@ -7,11 +7,11 @@ const Footer = () => {
       <footer className="px-4 py-10 footer text-base-content xl:px-1">
         <aside>
           <p className="text-2xl text-bold" style={{ width: "200px" }}>
-            <span className="text-2xl text-bold text-green">Khemz</span>
-            Kitchen
+            <span className="text-2xl text-bold text-green">Admin</span>
+            Portal
           </p>
           <p className="my-5 md:w-40">
-            Savor the artistry where every dish is a culinary masterpiece
+          Manage fuel quotas, transactions, and monitor station activities.
           </p>
         </aside>
         <nav>
