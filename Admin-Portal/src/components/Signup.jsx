@@ -1,30 +1,14 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import Modal from "./Modal";
-import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthProvider";
-import axios from "axios";
-import useAxiosPublic from "../hooks/useAxiosPublic";
+import Modal from "./SignInModal";
+
+
 
 const Signup = () => {
-  const {
-    register,
-    handleSubmit,
-
-    formState: { errors },
-  } = useForm();
-
-  const { createUser, signUpWithGmail, loginWithEmail, updateuserProfile } =
-    useContext(AuthContext);
-
-  const axiosPublic = useAxiosPublic();
-  //redirecting to homepage or specific page
-  const location = useLocation();
-  const navigate = useNavigate();
-  const from = location.state?.from?.pathname || "/";
+ 
 
   const onSubmit = (data) => {
     
@@ -39,7 +23,7 @@ const Signup = () => {
     <div className="flex items-center justify-center w-full max-w-md mx-auto mt-20 bg-white shadow">
       <div className="flex flex-col justify-center mt-0 modal-action">
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          
           className="card-body"
           method="dialog"
         >
