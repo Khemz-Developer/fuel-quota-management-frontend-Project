@@ -10,8 +10,8 @@ const Banner = () => {
           {/* Text */}
           <div className="px-4 space-y-6 md:w-1/2">
             <h2 className="text-4xl font-bold leading-snug md:leading-snug md:text-5xl">
-              Fuel Quota Management Fuel Station {" "}
-              <span className=" text-green"> Owner Portal</span>
+            Manage Your Fuel Station  {" "}
+              <span className=" text-green"> Efficiently</span>
             </h2>
             <p className="text-xl text-[#4A4A4A]">
             Register your fuel station, manage fuel distribution, and keep track of fuel stock all in one place.
