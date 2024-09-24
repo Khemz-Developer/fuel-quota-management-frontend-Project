@@ -1,8 +1,9 @@
 
 import { createBrowserRouter } from "react-router-dom";
+import Signup from "../components/Signup";
+import StationOwners from "../components/StationOwners";
 import Main from "../layout/Main";
 import Home from "../pages/Home";
-import Signup from "../components/Signup";
 
 
 const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       path: "/signup",
       element :<Signup/>
     },
+    {
+      path: "/accepted-orders",
+      element :<StationOwners/>
+    }
   ]);
 
 export default router;
