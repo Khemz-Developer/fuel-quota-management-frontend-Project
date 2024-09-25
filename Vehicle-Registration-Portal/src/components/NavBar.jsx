@@ -1,5 +1,5 @@
 import { FaRegUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // Import Link for routing
 import { useEffect, useState } from "react";
 import Modal from "./SignInModal";
 
@@ -26,24 +26,25 @@ function NavBar() {
   const navItems = (
     <>
       <li>
-        <a className="text-black" href="/">
+        <Link className="text-black" to="/">
           Home
-        </a>
+        </Link>
       </li>
       <li>
-        <a className="text-black" href="/register">
+        <Link className="text-black" to="/register">
           Register Vehicle
-        </a>
+        </Link>
       </li>
       <li>
-        <a className="text-black" href="/dashboard">
+        <Link className="text-black" to="/dashboard">
           Dashboard
-        </a>
+        </Link>
       </li>
       <li>
-        <a className="text-black" href="/help">
+        <Link className="text-black" to="/help-support">
           Help & Support
-        </a>
+        </Link>{" "}
+        {/* Updated to Link */}
       </li>
     </>
   );
@@ -80,11 +81,11 @@ function NavBar() {
               {navItems}
             </ul>
           </div>
-          <a href="/">
-            <p className="text-bold" style={{ width: "200px" }}>
-              <span className="text-md text-green">Vehicle Registration</span> Portal
-            </p>
-          </a>
+          <Link to="/" className="text-bold" style={{ width: "200px" }}>
+            <span className="text-md text-green">Vehicle Registration</span>{" "}
+            Portal
+          </Link>{" "}
+          {/* Changed to Link */}
         </div>
         <div className="hidden navbar-center lg:flex">
           <ul className="px-1 menu menu-horizontal">{navItems}</ul>
