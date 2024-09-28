@@ -1,6 +1,5 @@
-import { FaRegUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { FaRegUser } from "react-icons/fa";
 import Modal from "./SignInModal";
 
 function NavBar() {
@@ -41,7 +40,7 @@ function NavBar() {
           <summary>Management Page</summary>
           <ul className="p-2">
             <li>
-              <a href="/order">Vehical Management Page</a>
+              <a href="/order">Vehicle Management Page</a>
             </li>
             <li>
               <a href="/accepted-orders">Fuel Station Management Page</a>
