@@ -22,19 +22,33 @@ export default {
         fadeIn: 'fadeIn 1.5s ease-in-out',
         zoomIn: 'zoomIn 1.5s ease-in-out',
       },
-      colors:{
+      colors: {
         "green": "#176B87",
-        "red" : "#FF6868",
+        "red": "#FF6868",
         "secondary": "#555",
         "primaryBG": "#FCFCFC",
+        "borderColor": "#EAEAEA",
+        "placeholder": "#C4DAD2",
       },
       fontFamily: {
         'primary': ['Inter', 'sans-serif'],
       },
+      borderColor: {
+        "custom": "#EAEAEA",
+      },
+      placeholderColor: {
+        "custom": "#C4DAD2",
+      },
+      placeholder: { // This is the correct utility for placeholder colors
+        "custom": "#C4DAD2",
+      },
     },
+  },
+  variants: {
+    borderColor: ['focus'], // Enable borderColor for the focus variant
+    placeholderColor: ['focus'], // Enable placeholderColor for the focus variant
   },
   plugins: [
     daisyui,
   ],
 }
-

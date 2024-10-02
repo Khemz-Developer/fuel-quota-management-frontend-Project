@@ -31,7 +31,7 @@ function NavBar() {
         </a>
       </li>
       <li>
-        <a className="text-black" href="/register">
+        <a className="text-black" href="/registration">
           Register Vehicle
         </a>
       </li>
