@@ -3,17 +3,56 @@ import React, { useEffect, useState } from 'react';
 const VehicleManagement = () => {
   const [vehicles, setVehicles] = useState([]);
 
+  // Dummy data to simulate fetched data
+  const dummyData = [
+    {
+      _id: '1',
+      registrationNumber: 'XC-1201',
+      ownerName: 'Sanath Maheepala',
+      vehicleClass: 'Sedan',
+      make: 'Toyota',
+      model: 'Corolla',
+      yearOfManufacture: '2012',
+    },
+    {
+      _id: '2',
+      registrationNumber: 'VB-5198',
+      ownerName: 'Sugath Thilakarathne',
+      vehicleClass: 'SUV',
+      make: 'Honda',
+      model: 'CR-V',
+      yearOfManufacture: '2015',
+    },
+    {
+      _id: '3',
+      registrationNumber: 'LN-9101',
+      ownerName: 'Wasula Kuruppuarachchi',
+      vehicleClass: 'Truck',
+      make: 'Ford',
+      model: 'F-150',
+      yearOfManufacture: '2010',
+    },
+  ];
+
   // Fetch vehicles from the backend API
   useEffect(() => {
-    fetch('/api/admin/users') 
-      .then(response => response.json())
-      .then(data => {
-        setVehicles(data); // Set those fetched vehicle data
-      })
-      .catch(error => {
-        console.error('Error fetching vehicles:', error);
-      });
+    setVehicles(dummyData);
   }, []);
+
+  // Fetch Data
+  const fetchData = async() => {
+    try {
+      const response = await fetch('/api/admin/users'); 
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setStationRows(data);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  }
+  
 
   // Handle deletion of vehicles
   const handleDelete = (id) => {

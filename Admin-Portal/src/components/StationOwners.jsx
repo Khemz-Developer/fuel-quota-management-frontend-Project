@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import StationModal from './stationModal';
 
 const StationOwners = () => {
   const [stationRows, setStationRows] = useState([]);
   const [selectedStation, setSelectedStation] = useState(null);
-
-   // Dummy data to simulate fetched data
-   const dummyData = [
+  
+  // Dummy data to simulate fetched data
+  const dummyData = [
     {
       _id: '1',
       stationName: 'Station A',
@@ -51,6 +52,12 @@ const StationOwners = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  //Handle View 
+  const handleView = (stationId)=>{
+    const station = stationRows.find(row => row._id === stationId);
+    setSelectedStation(station);
+  }
 
   // Handle accept station
   const handleAccept = async (stationId) => {
@@ -105,6 +112,7 @@ const StationOwners = () => {
                   <td>{row.ownerName}</td>
                   <td>{new Date(row.submittedDate).toISOString().split('T')[0]}</td>
                   <td>
+                    <button onClick={() => handleView(row._id)} className="btn btn-accent mr-2"> View </button>
                     <button onClick={() => handleAccept(row._id)} className="btn btn-primary mr-2">Accept</button>
                     <button onClick={() => handleReject(row._id)} className="btn btn-error">Reject</button>
                   </td>
@@ -114,6 +122,14 @@ const StationOwners = () => {
           </table>
         </div>
       </div>
+
+        {/* Modal for viewing station details */}
+        {selectedStation && (
+          <StationModal
+            station={selectedStation}
+            onClose={() => setSelectedStation(null)}  // Close modal on clicking close
+          />
+        )}        
     </div>
   );
 };
