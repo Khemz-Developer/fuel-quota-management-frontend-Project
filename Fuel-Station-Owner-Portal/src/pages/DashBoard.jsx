@@ -1,9 +1,10 @@
+import FuelQuotaDashboard from "../components/FuelQuotaDashboard"
 
 
 const DashBoard = () => {
   return (
     <div>
-      DashBoard
+      <FuelQuotaDashboard/>
     </div>
   )
 }
