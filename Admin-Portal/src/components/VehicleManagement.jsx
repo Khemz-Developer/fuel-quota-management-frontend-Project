@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-
+import StationModal from './stationModal';
 const VehicleManagement = () => {
   const [vehicles, setVehicles] = useState([]);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
 
   // Dummy data to simulate fetched data
   const dummyData = [
@@ -47,12 +48,16 @@ const VehicleManagement = () => {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      setStationRows(data);
+      setSelectedVehicle(data);
     } catch (error) {
       console.error('Error fetching data: ', error);
     }
   }
-  
+  //Handle View 
+  const handleView = (id)=>{
+    const vehicle = vehicles.find(row => row._id === id);
+    setSelectedVehicle(vehicle);
+  }
 
   // Handle deletion of vehicles
   const handleDelete = (id) => {
@@ -94,7 +99,7 @@ const VehicleManagement = () => {
           </thead>
           <tbody>
             {vehicles.map(vehicle => (
-              <tr key={vehicle.id}>
+              <tr key={vehicle._id}>
                 <td>{vehicle.registrationNumber}</td>
                 <td>{vehicle.ownerName}</td>
                 <td>{vehicle.engineNumber}</td>
@@ -103,18 +108,30 @@ const VehicleManagement = () => {
                 <td>{vehicle.model}</td>
                 <td>{vehicle.yearOfManufacture}</td>
                 <td>
+                  {/*View button */}
+                  <button onClick={()=> handleView(vehicle._id)}className="btn btn-success mr-2"> View </button>
+
                   {/* Update button */}
                   <button className="btn btn-primary mr-2">Update</button>
 
                   {/* Delete button */}
-                  <button onClick={() => handleDelete(vehicle.id)} className="btn btn-error">Delete</button>
+                  <button onClick={() => handleDelete(vehicle._id)} className="btn btn-error">Delete</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      </div>  
+      </div> 
+
+      {/* Modal for viewing station details */}
+        {selectedVehicle && (
+          <StationModal
+            data={selectedVehicle}
+            type = "vehicle"
+            onClose={() => setSelectedVehicle(null)}  // Close modal on clicking close
+          />
+      )}  
     </div>
   );
 };
