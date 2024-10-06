@@ -5,13 +5,19 @@ import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "../screens/LoginScreen";
 import HomeScreen from "../screens/Homescreen";
 import QRScannerScreen from "../screens/QRScannerScreen";
+import StartingScreen from "../screens/StartingScreen";
 
 const Stack = createStackNavigator();
 
 export default function MainNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Starting">
+        <Stack.Screen
+          name="Starting"
+          component={StartingScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Login"
           component={LoginScreen}
