@@ -6,6 +6,7 @@ import LoginScreen from "../screens/LoginScreen";
 import HomeScreen from "../screens/Homescreen";
 import QRScannerScreen from "../screens/QRScannerScreen";
 import StartingScreen from "../screens/StartingScreen";
+import SignupScreen from "../screens/SignupScreen";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ export default function MainNavigator() {
           component={LoginScreen}
           options={{ title: "Login" }}
         />
+        <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen
           name="Home"
           component={HomeScreen}
