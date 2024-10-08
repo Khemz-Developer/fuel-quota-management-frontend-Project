@@ -112,9 +112,9 @@ const StationOwners = () => {
                   <td>{row.ownerName}</td>
                   <td>{new Date(row.submittedDate).toISOString().split('T')[0]}</td>
                   <td>
-                    <button onClick={() => handleView(row._id)} className="btn btn-accent mr-2"> View </button>
+                    <button onClick={() => handleView(row._id)} className="btn btn-success mr-2"> View </button>
                     <button onClick={() => handleAccept(row._id)} className="btn btn-primary mr-2">Accept</button>
-                    <button onClick={() => handleReject(row._id)} className="btn btn-error">Reject</button>
+                    <button onClick={() => handleReject(row._id)} className="btn btn-error mr-2">Reject</button>
                   </td>
                 </tr>
               ))}
@@ -123,13 +123,14 @@ const StationOwners = () => {
         </div>
       </div>
 
-        {/* Modal for viewing station details */}
+      {/* Modal for viewing station details */}
         {selectedStation && (
           <StationModal
-            station={selectedStation}
+            data={selectedStation}
+            type = "station"
             onClose={() => setSelectedStation(null)}  // Close modal on clicking close
           />
-        )}        
+      )}        
     </div>
   );
 };
