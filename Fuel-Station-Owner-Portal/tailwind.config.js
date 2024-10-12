@@ -36,18 +36,5 @@ export default {
   plugins: [
     daisyui,
   ],
-  daisyui: {
-    themes: [
-      {
-        light: {
-          primary: "#176B87", // Your custom color for light theme
-          secondary: "#555",
-          accent: "#FF6868",
-          neutral: "#FCFCFC",
-          "base-100": "#FFFFFF", // Light theme base background
-        },
-      },
-    ], // Define only the light theme to avoid dark mode
-  },
 }
 

@@ -91,7 +91,7 @@ const StationOwners = () => {
 
   return (
     <div className="container mx-auto my-8">
-      <div className="card shadow-x1 bg-base-300 p-6">
+      <div className="card shadow-x1 bg-gray-200 p-6">
         <h2 className="text-2xl font-semibold mb-4">Fuel Station Registrations</h2>
         <div className="overflow-x-auto">
           <table className="table w-full">
