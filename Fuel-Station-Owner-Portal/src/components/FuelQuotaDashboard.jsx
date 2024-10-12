@@ -43,12 +43,13 @@ const FuelQuotaDashboard = () => {
       <h2 className="text-2xl font-bold mb-6">Fuel Station Owner Dashboard</h2>
 
       {/* Allocated Fuel Quotas */}
-      <div className="card shadow-x1 bg-base-300 p-6">
+      <div className="card p-6">
       <section className="mb-8">
         <h3 className="text-xl mb-3">Allocated Fuel Quotas</h3>
         <div className="grid grid-cols-2 gap-6">
           {fuelData.map((fuel) => (
-            <div key={fuel.type} className="card bg-gray-500 shadow p-3 ">
+            <div key={fuel.type} className="card bg-gray-300 shadow-x2 p-3 
+            transition-transform transform hover:scale-105 hover:bg-gray-400  duration-300">
               <h3 className="text-lg font-bold">{fuel.type}</h3>
               <p>Quota: {fuel.quota} liters</p>
               <p>Used: {fuel.used} liters</p>
