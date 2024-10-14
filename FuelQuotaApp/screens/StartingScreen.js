@@ -1,10 +1,11 @@
 // screens/StartingScreen.js
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, ImageBackground } from "react-native";
+import { globalStyles } from "../styles/Styles";
 
 const StartingScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
       <Text style={styles.title}>Welcome to Fuel Quota App</Text>
       <View style={styles.buttonContainer}>
         <Button
@@ -18,12 +19,6 @@ const StartingScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
   title: {
     fontSize: 30,
     fontWeight: "bold",

@@ -1,6 +1,7 @@
 // screens/HomeScreen.js
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
+import { globalStyles } from "../styles/styles";
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -16,11 +17,11 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  // container: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
   settings: {
     position: "absolute", // Free positioning
     top: 20, // Distance from the top
