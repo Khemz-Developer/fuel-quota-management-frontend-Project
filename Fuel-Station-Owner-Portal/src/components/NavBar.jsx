@@ -1,10 +1,17 @@
 import { FaRegUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Modal from "./SignInModal";
+import Profile from "./Profile";
 
 function NavBar() {
   const [isSticky, setSticky] = useState(false);
+
+  // const user = {
+  //   name: "John Doe", // Example user name
+  //   email: "john.doe@example.com" // Example user email
+  // };
+  const user = undefined;
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,14 +105,22 @@ function NavBar() {
         <div className="hidden navbar-center lg:flex">
           <ul className="px-1 menu menu-horizontal">{navItems}</ul>
         </div>
-        <div className="navbar-end">
-         
-        
+        <div className="navbar-end">        
+        {
+          user? (
+            <Profile user={user} />
+          ) : (
+            <button
+              onClick={() => document.getElementById("my_modal_5").showModal()}
+              className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green"
+            >
+              <FaRegUser />
+              Login
+            </button>
+          )
+         }
 
-          <button  onClick={() => document.getElementById("my_modal_5").showModal()} className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green">
-            <FaRegUser />
-            Login
-          </button>
+         
           <Modal />
         </div>
       </div>

@@ -1,0 +1,26 @@
+.modal {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; /* Transition for fade */
+  }
+  
+  .fade-in {
+    opacity: 1; /* Fully visible */
+  }
+  
+  .fade-out {
+    opacity: 0; /* Fully transparent */
+  }
+  
+  /* Optional: You can also add a transform for sliding effect */
+  .modal {
+    transform: translateY(20px); /* Start slightly lower */
+  }
+  
+  .fade-in {
+    transform: translateY(0); /* Slide to its normal position */
+  }
+  
+  .fade-out {
+    transform: translateY(20px); /* Slide down when fading out */
+  }
+  

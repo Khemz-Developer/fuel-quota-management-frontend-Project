@@ -9,11 +9,11 @@ const Banner = () => {
   
           {/* Text */}
           <div className="px-4 space-y-6 md:w-1/2">
-            <h2 className="text-4xl font-bold leading-snug md:leading-snug md:text-5xl">
+            <h2 className="text-4xl font-extrabold leading-snug md:leading-snug md:text-5xl">
               Fuel Quota Management Admin{" "}
               <span className="text-green">Portal</span>
             </h2>
-            <p className="text-xl text-[#4A4A4A]">
+            <p className="max-w-md text-xl text-gray-600">
               Manage fuel quotas, transactions, and monitor station activities.
             </p>
             <button className="px-8 py-3 font-semibold text-white rounded-full btn bg-green">

@@ -4,12 +4,6 @@ import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 
-
-
-
-
-
-
 const Modal = () => {
 
   
