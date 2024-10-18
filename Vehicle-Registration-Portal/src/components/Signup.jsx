@@ -3,8 +3,11 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit,watch, formState: { errors } } = useForm();
 
+  // Watch the password field
+  const password = watch("password");
+    
   // Function to handle form submission
   const onSubmit = async (data) => {
     try {
@@ -91,6 +94,21 @@ const Signup = () => {
           {errors.password && <span className="pt-2 text-sm text-red">Password must be at least 6 characters</span>}
         </div>
 
+        {/* Confirm Password */}
+        <div className="mt-4 form-control">
+          <label className="label">
+            <span className="label-text">Confirm Password</span>
+          </label>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            className="w-full input input-bordered"
+            {...register("confirmPassword", { required: true ,
+              validate: (value) => value === password|| "The passwords do not match"
+            })}
+          />
+          {errors.confirmPassword && <span className="pt-2 text-sm text-red">Please confirm your password</span>}
+        </div>
         {/* Signup Button */}
         <div className="mt-6 form-control">
           <input type="submit" value="Signup" className="w-full text-white btn bg-green" />

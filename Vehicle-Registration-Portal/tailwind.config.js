@@ -29,6 +29,7 @@ export default {
         "primaryBG": "#FCFCFC",
         "borderColor": "#EAEAEA",
         "placeholder": "#C4DAD2",
+        "placeholder-green":"#2F8590"
       },
       fontFamily: {
         'primary': ['Inter', 'sans-serif'],
