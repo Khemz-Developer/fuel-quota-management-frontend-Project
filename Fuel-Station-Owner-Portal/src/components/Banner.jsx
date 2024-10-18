@@ -1,3 +1,5 @@
+import StationRegisterform from "./StationRegisterform";
+
 const Banner = () => {
     return (
       <div className="section-container bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
@@ -19,9 +21,12 @@ const Banner = () => {
             <button className="px-8 py-3 font-semibold text-white rounded-full btn bg-green">
               Manage Now
             </button>
-            <button className="px-8 py-2 ml-4 font-semibold transition duration-300 border-2 rounded-full text-green border-green hover:text-white hover:bg-green">
+           
+            <button onClick={() => document.getElementById("my_modal_6").showModal()} className="px-8 py-2 ml-4 font-semibold transition duration-300 border-2 rounded-full text-green border-green hover:text-white hover:bg-green">
               Register Fuel Station
             </button>
+            <StationRegisterform/>
+            
           </div>
         </div>
       </div>

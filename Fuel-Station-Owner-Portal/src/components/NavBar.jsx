@@ -105,8 +105,7 @@ function NavBar() {
         <div className="hidden navbar-center lg:flex">
           <ul className="px-1 menu menu-horizontal">{navItems}</ul>
         </div>
-        <div className="navbar-end">
-         
+        <div className="navbar-end">        
         {
           user? (
             <Profile user={user} />
