@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Signup from "../components/Signup";
 import DashBoard from "../pages/DashBoard";
 import RegistrationPage from "../pages/RegistrationPage";
+import UpdateProfile from "../pages/UpdatedProfile";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,11 @@ const router = createBrowserRouter([
       {
         path: "/registration",
         element: <RegistrationPage />,
-      }
+      },
+      {
+        path:"/update-profile",
+        element:<UpdateProfile/>
+      },
     ],
   },
   {
