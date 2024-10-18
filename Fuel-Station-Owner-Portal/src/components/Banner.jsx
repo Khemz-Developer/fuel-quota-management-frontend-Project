@@ -9,7 +9,7 @@ const Banner = () => {
   
           {/* Text */}
           <div className="px-4 space-y-6 md:w-1/2">
-            <h2 className="text-4xl font-bold leading-snug md:leading-snug md:text-5xl">
+            <h2 className="text-4xl font-extrabold leading-snug md:leading-snug md:text-6xl">
             Manage Your Fuel Station  {" "}
               <span className=" text-green"> Efficiently</span>
             </h2>
@@ -18,6 +18,9 @@ const Banner = () => {
             </p>
             <button className="px-8 py-3 font-semibold text-white rounded-full btn bg-green">
               Manage Now
+            </button>
+            <button className="px-8 py-2 ml-4 font-semibold transition duration-300 border-2 rounded-full text-green border-green hover:text-white hover:bg-green">
+              Register Fuel Station
             </button>
           </div>
         </div>
