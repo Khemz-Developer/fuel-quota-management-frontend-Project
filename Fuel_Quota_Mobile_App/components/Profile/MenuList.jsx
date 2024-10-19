@@ -13,7 +13,7 @@ export default function MenuList() {
   const menuList = [
     {
       id: 1,
-      name: "Fuel Station Details",
+      name: "Station Details",
       icon: AddBusiness,
       path: "/business/add-business",
     },
@@ -47,7 +47,7 @@ export default function MenuList() {
 
     if (item.id == 3) {
       Share.share({
-        message: "Download this app to explore new business",
+        message: "Download this app to explore new features",
       });
 
       return;
@@ -85,6 +85,7 @@ export default function MenuList() {
               borderRadius: 10,
               margin: 10,
               backgroundColor: "white",
+              Colors: Colors.PRIMARY,
             }}
             key={index}
           >
@@ -100,6 +101,7 @@ export default function MenuList() {
               style={{
                 fontFamily: "outfit-medium",
                 fontSize: 16,
+                Colors: Colors.PRIMARY,
               }}
             >
               {item.name}
@@ -113,7 +115,7 @@ export default function MenuList() {
           fontFamily: "outfit-medium",
           fontSize: 18,
           textAlign: "center",
-          color: Colors.primary,
+          color: Colors.PRIMARY,
           marginTop: 20,
         }}
       >
