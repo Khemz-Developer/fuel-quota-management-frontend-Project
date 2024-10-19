@@ -1,5 +1,6 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
+import {Colors} from "../../constants/Colors";
 
 export default function UserIntro() {
   const  user  = {
@@ -39,7 +40,7 @@ export default function UserIntro() {
       <Text
         style={{
           fontFamily: "outfit-medium",
-          color: "gray",
+          color: Colors.GRAY,
         }}
       >
         {user.primaryEmailAddress.emailAddress}
