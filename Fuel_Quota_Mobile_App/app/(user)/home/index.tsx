@@ -4,7 +4,7 @@ import { Text, View } from 'react-native'
 const Index = () => {
   return (
     <View>
-      <Text> Home</Text>
+      <Text style={{fontSize:40,fontFamily:'outfit'}}> Home</Text>
     </View>
   )
 }
