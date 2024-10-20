@@ -1,18 +1,14 @@
 // screens/StartingScreen.js
 import React from "react";
 import { View, Text, Button, StyleSheet, ImageBackground } from "react-native";
-import { globalStyles } from "../styles/Styles";
+import { globalStyles } from "../styles/styles";
 
 const StartingScreen = ({ navigation }) => {
   return (
     <View style={globalStyles.container}>
       <Text style={styles.title}>Welcome to Fuel Quota App</Text>
       <View style={styles.buttonContainer}>
-        <Button
-          title="Start"
-          onPress={() => navigation.navigate("Login")}
-          color="#002B5B"
-        />
+        <Button title="Start" onPress={() => navigation.navigate("Login")} color="#002B5B" />
       </View>
     </View>
   );
