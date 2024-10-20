@@ -9,14 +9,14 @@ const FuelCapacityChart = ({ fuelType, capacity }: { fuelType: string, capacity:
     {
       name: fuelType,
       capacity,
-      color: '#3498db', // Blue color for fuel capacity
+      color: '#005C78', // Blue color for fuel capacity
       legendFontColor: '#333', // Darker font color for legibility
       legendFontSize: 14,
     },
     {
       name: 'Empty',
       capacity: 100 - capacity, // assuming 100 as full capacity
-      color: '#ecf0f1', // Light gray for the empty portion
+      color: '#E88D67', // Light gray for the empty portion
       legendFontColor: '#999',
       legendFontSize: 14,
     }
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 25,
     paddingVertical: 20,
-    backgroundColor: '#f7f9fc', // Light background to separate sections
+    backgroundColor: '#F4F6FF', // Light background to separate sections
     borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
   pieTitle: {
     fontSize: 20,
     fontWeight: '600',
+    fontFamily: 'outfit-bold',
     marginBottom: 12,
     color: '#2c3e50', // Darker text color
   }
