@@ -11,7 +11,7 @@ function HomeStack() {
   return (
   
     <Stack.Navigator initialRouteName="index">
-      <Stack.Screen name="index" component={QRScannerScreen} options={{ title: 'Scan QR Code' }} />
+      <Stack.Screen name="index" component={QRScannerScreen} options={{headerShown:false}} />
       <Stack.Screen 
         name="VehicleDetails" 
         options={{ title: 'Vehicle Details' }} 

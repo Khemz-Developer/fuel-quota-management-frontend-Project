@@ -102,16 +102,18 @@ export default function Index() {
   return (
     <View style={{ flex: 1 }}>
       <Stack.Screen options={{ headerShown: false }} />
-      {/* <View style={{
+      <View style={{
         backgroundColor: "#176B87",
         justifyContent: "center",
         alignItems: "center",
-        height: 50,
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20,
+        height: 100,
+        borderBottomRightRadius: 40,
+        borderBottomLeftRadius: 40,
+        borderTopLeftRadius:40,
+        borderTopRightRadius:40,
       }}>
-        
-      </View> */}
+        <Text style={{ color: '#fff', fontSize: 20, fontFamily: 'outfit-light' ,marginTop:30}}>Welcome to Fuel Quota App !</Text>
+      </View>
       <View
         style={{
           display: "flex",
@@ -121,10 +123,11 @@ export default function Index() {
       >
         <Image
           style={{
-            width: 420,
-            height: 500,
-            borderColor: "black",
-            borderRadius: 4,
+            width: 300,
+            height: 400,
+            borderColor: Colors.PRIMARY,
+            borderRadius:14,
+            borderWidth:2,
           }}
           source={require("./../../assets/images/login.png")}
         />
