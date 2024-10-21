@@ -49,13 +49,14 @@ function BottomTabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen
         name="Scan"
-        component={ScanScreen} // Connect to the Scan screen
+        component={QRScannerScreen} // Connect to the Scan screen
         options={{
           tabBarButton: (props) => (
             <CustomScanButton {...props}>
               <Ionicons name="scan" size={30} color="#fff" />
             </CustomScanButton>
           ),
+          unmountOnBlur: true,
         }}
       />
       <Tab.Screen name="Profile" component={ProfileScreen} />

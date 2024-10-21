@@ -33,13 +33,16 @@ export default function QRScannerScreen({ navigation }) {
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
-        {scanned && (
-          <Button title="Tap to Scan Again" onPress={() => setScanned(false)} />
-        )}
+      </View>
+
+      <View style={styles.tapagain}>
+        {scanned && <Button title="Tap to Scan Again" onPress={() => setScanned(false)} color="#002B5B" />}
       </View>
 
       <View style={styles.exitContainer}>
-        <Button title="Exit" onPress={() => navigation.navigate("Home")} />
+        <View style={styles.exitButton}>
+          <Button title="Exit" onPress={() => navigation.navigate("Home")} color="#002B5B" />
+        </View>
       </View>
     </View>
   );
@@ -61,10 +64,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  exitContainer: {
+  tapagain: {
     position: "absolute",
-    bottom: 50,
+    bottom: 150,
     width: "100%",
     alignItems: "center",
+  },
+  exitContainer: {
+    position: "absolute",
+    bottom: 100,
+    width: "100%",
+    alignItems: "center",
+  },
+
+  exitButton: {
+    width: "37%", // Adjust the width as needed
   },
 });
