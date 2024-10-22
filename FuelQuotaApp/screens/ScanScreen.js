@@ -1,9 +1,9 @@
-// screens/QRScannerScreen.js
+// screens/ScanScreen.js
 import React, { useState, useEffect } from "react";
 import { View, Button, StyleSheet, Text } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
-export default function QRScannerScreen({ navigation }) {
+export default function ScanScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
@@ -33,10 +33,7 @@ export default function QRScannerScreen({ navigation }) {
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
-      </View>
-
-      <View style={styles.tapagain}>
-        {scanned && <Button title="Tap to Scan Again" onPress={() => setScanned(false)} color="#002B5B" />}
+        {scanned && <Button title="Tap to Scan Again" onPress={() => setScanned(false)} />}
       </View>
 
       <View style={styles.exitContainer}>
@@ -64,20 +61,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  tapagain: {
-    position: "absolute",
-    bottom: 150,
-    width: "100%",
-    alignItems: "center",
-  },
   exitContainer: {
     position: "absolute",
-    bottom: 100,
+    bottom: 120,
     width: "100%",
     alignItems: "center",
   },
-
   exitButton: {
-    width: "37%", // Adjust the width as needed
+    width: "30%", // Adjust the width as needed
   },
 });
