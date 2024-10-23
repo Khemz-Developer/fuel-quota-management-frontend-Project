@@ -96,16 +96,147 @@
 // export default Index;
 
 
-import React, { useState, useEffect } from 'react';
+//-----------------------------------------------
+
+
+// import React, { useState, useEffect } from 'react';
+// import { Text, View, StyleSheet, Button } from 'react-native';
+// import { BarCodeScanner, BarCodeScannerResult } from 'expo-barcode-scanner';
+// import { Colors } from '../../../constants/Colors';
+// import { useNavigation ,useFocusEffect} from '@react-navigation/native';
+// import { QRScannerScreenNavigationProp } from '../../../constants/Types';
+
+// const Index = () => {
+//   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+//   const [scanned, setScanned] = useState(false);
+//   const navigation = useNavigation<QRScannerScreenNavigationProp>();
+
+//   useEffect(() => {
+//     const getBarCodeScannerPermissions = async () => {
+//       const { status } = await BarCodeScanner.requestPermissionsAsync();
+//       setHasPermission(status === 'granted');
+//     };
+
+//     getBarCodeScannerPermissions();
+//   }, []);
+
+//    // Reset the scanned state when the screen is focused
+//    useFocusEffect(
+//     useCallback(() => {
+//       // Reset scanned state when the screen is focused
+//       setScanned(false);
+//     }, [])
+//   );
+
+//   const handleBarCodeScanned = ({ type, data }: BarCodeScannerResult) => {
+//     setScanned(true);
+//     alert(`Vehicle number: ${data} scanned successfully!`);
+//     navigation.navigate('VehicleDetails', { vehicleNumber: data });
+//   };
+
+//   // const handleNavigation = () => {
+//   //   navigation.navigate('VehicleDetails');
+//   // };
+
+//   if (hasPermission === null) {
+//     return <Text style={styles.message}>Requesting for camera permission</Text>;
+//   }
+//   if (hasPermission === false) {
+//     return <Text style={styles.errorMessage}>No access to camera</Text>;
+//   }
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>Scan QR Code</Text>
+//       <View style={styles.scannerContainer}>
+//         <BarCodeScanner
+//           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+//           style={styles.scanner}
+//         />
+//       </View>
+//       {scanned && (
+//         <Button
+//           title={'Tap to Scan Again'}
+//           onPress={() => setScanned(false)}
+//           color={Colors.PRIMARY}
+//         />
+//       )}
+//       {/* <View style={styles.buttonContainer}>
+//         <Button
+//           title="Go to Vehicle Details Page "
+//           onPress={handleNavigation}
+//           color={Colors.PRIMARY}
+//         />
+//       </View> */}
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#f5f5f5',
+//     padding: 20,
+//   },
+//   title: {
+//     fontSize: 24,
+//     fontWeight: 'bold',
+//     marginBottom: 15,
+//     fontFamily: 'outfit-bold',
+//     color: Colors.PRIMARY,
+//   },
+//   scannerContainer: {
+//     width: '80%',
+//     height: '70%',
+//     overflow: 'hidden',
+//     borderRadius: 10,
+//     //borderWidth: 1,
+//     //borderColor: Colors.PRIMARY,
+//     backgroundColor: '#F3F7EC',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginVertical: 20,
+//   },
+//   scanner: {
+//     width: '100%',
+//     height: '100%',
+//   },
+//   message: {
+//     fontSize: 18,
+//     color: Colors.PRIMARY,
+//     textAlign: 'center',
+//   },
+//   errorMessage: {
+//     fontSize: 18,
+//     color: Colors.GRAY,
+//     textAlign: 'center',
+//     fontWeight: 'bold',
+//   },
+//   buttonContainer: {
+//     marginTop: 15,
+//     width: '80%',
+//   },
+// });
+
+// export default Index;
+
+
+//-----------------------------------------------
+
+
+import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner, BarCodeScannerResult } from 'expo-barcode-scanner';
 import { Colors } from '../../../constants/Colors';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { QRScannerScreenNavigationProp } from '../../../constants/Types';
 
 const Index = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState(false);
+  const [scannerKey, setScannerKey] = useState(0); // Key to force remounting
   const navigation = useNavigation<QRScannerScreenNavigationProp>();
 
   useEffect(() => {
@@ -117,19 +248,28 @@ const Index = () => {
     getBarCodeScannerPermissions();
   }, []);
 
+
+  // Reset the scanner by updating the key when the screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      setScanned(false);
+      setScannerKey(prevKey => prevKey + 1); // Update key to force remount
+    }, [])
+  );
+
+
   const handleBarCodeScanned = ({ type, data }: BarCodeScannerResult) => {
     setScanned(true);
     alert(`Vehicle number: ${data} scanned successfully!`);
     navigation.navigate('VehicleDetails', { vehicleNumber: data });
   };
 
-  const handleDummyNavigation = () => {
-    navigation.navigate('VehicleDetails', { vehicleNumber: 'ABC-1234' });
-  };
 
   if (hasPermission === null) {
     return <Text style={styles.message}>Requesting for camera permission</Text>;
   }
+
+
   if (hasPermission === false) {
     return <Text style={styles.errorMessage}>No access to camera</Text>;
   }
@@ -139,6 +279,7 @@ const Index = () => {
       <Text style={styles.title}>Scan QR Code</Text>
       <View style={styles.scannerContainer}>
         <BarCodeScanner
+          key={scannerKey} // Use key to force re-render of the BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={styles.scanner}
         />
@@ -147,19 +288,13 @@ const Index = () => {
         <Button
           title={'Tap to Scan Again'}
           onPress={() => setScanned(false)}
-          color={Colors.BUTTON_PRIMARY}
+          color={Colors.PRIMARY}
         />
       )}
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Go to Vehicle Details (Dummy Data)"
-          onPress={handleDummyNavigation}
-          color={Colors.BUTTON_SECONDARY}
-        />
-      </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -177,12 +312,10 @@ const styles = StyleSheet.create({
     color: Colors.PRIMARY,
   },
   scannerContainer: {
-    width: '80%',
-    height: '70%',
+    width: '100%',
+    height: '65%',
     overflow: 'hidden',
-    borderRadius: 10,
-    //borderWidth: 1,
-    //borderColor: Colors.PRIMARY,
+    borderRadius: 30,
     backgroundColor: '#F3F7EC',
     justifyContent: 'center',
     alignItems: 'center',
@@ -191,6 +324,7 @@ const styles = StyleSheet.create({
   scanner: {
     width: '100%',
     height: '100%',
+    borderRadius: 40,
   },
   message: {
     fontSize: 18,
@@ -203,10 +337,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
-  buttonContainer: {
-    marginTop: 15,
-    width: '80%',
-  },
 });
 
 export default Index;
+
