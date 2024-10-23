@@ -14,7 +14,7 @@ function HomeStack() {
       <Stack.Screen name="index" component={QRScannerScreen} options={{headerShown:false}} />
       <Stack.Screen 
         name="VehicleDetails" 
-        options={{ title: 'Vehicle Details' }} 
+        options={{ headerShown:false }} 
         component={VehicleDetailsScreen} 
       />
     </Stack.Navigator>
