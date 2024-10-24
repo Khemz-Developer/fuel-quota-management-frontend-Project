@@ -10,10 +10,12 @@ function NavBar() {
   const location = useLocation(); // Get current path
   
 
-  const user = {
-    name: "John Doe", // Example user name
-    email: "john.doe@example.com" // Example user email
-  };
+  // const user = {
+  //   name: "John Doe", // Example user name
+  //   email: "john.doe@example.com" // Example user email
+  // };
+
+  const user = null; // Set user to null to show the login button
 
   
   useEffect(() => {
