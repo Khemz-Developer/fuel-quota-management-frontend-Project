@@ -1,70 +1,59 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaGoogle } from "react-icons/fa";
-import { FaFacebookF } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
-
-
-
-
-
-
+import { FaGoogle, FaFacebookF, FaGithub } from "react-icons/fa";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const Modal = () => {
-
-  
+  const [userName, setuserName] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  
- 
- 
-  // google signin
-  const handleLogin = () => {
-    
-  };
+  // Function to handle form submission
+  const onSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    setErrorMessage(""); // Clear previous error message
 
-  
-   // Facebook sign-in
-   const handleFacebookLogin = () => {
-    
-  };
-
-  
-  const handleGithubLogin = () => {
-    
-  };
-  
-  
-  const onSubmit = () => {
-    
-   
+    try {
+      const response = await axios.post("http://localhost:8081/api/auth/login", {
+        username: userName, // Use email as username for this case
+        password: password,
+      });
+      // If successful, show success alert
+      Swal.fire("Login successful!", "", "success");
+      // Optionally redirect or perform other actions
+      console.log('Login response:', response.data);
+    } catch (error) {
+      // Handle errors and show an alert
+      const errorMsg = error.response?.data?.message || "Login failed. Please try again.";
+      setErrorMessage(errorMsg); // Set error message state
+      Swal.fire("Error!", errorMsg, "error"); // Show error alert
+    }
   };
 
   return (
     <dialog id="my_modal_5" className="modal modal-middle sm:modal-middle">
-      <div className=" modal-box">
+      <div className="modal-box">
         <div className="flex flex-col justify-center mt-0 modal-action">
-          <form
-            
-            className="card-body"
-            method="dialog"
-          >
+          <form className="card-body" onSubmit={onSubmit}>
             <h3 className="text-lg font-bold">Please Login!</h3>
             <div className="form-control">
-              {/* mail */}
+              {/* UserName */}
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text">User Name</span>
               </label>
               <input
-                type="email"
-                placeholder="email"
+                type="userName"
+                placeholder="userName"
                 className="input input-bordered"
                 required
-               
+                value={userName}
+                onChange={(e) => setuserName(e.target.value)}
               />
             </div>
 
-            {/* password */}
+            {/* Password */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
@@ -74,10 +63,11 @@ const Modal = () => {
                 placeholder="password"
                 className="input input-bordered"
                 required
-               
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
 
-              {/* forget password */}
+              {/* Forgot password */}
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
                   Forgot password?
@@ -85,14 +75,12 @@ const Modal = () => {
               </label>
             </div>
 
-            {/* error */}
-            {errorMessage ? (
+            {/* Error message */}
+            {errorMessage && (
               <p className="text-xs italic text-red">{errorMessage}</p>
-            ) : (
-              ""
             )}
 
-            {/* login btn */}
+            {/* Login button */}
             <div className="mt-6 form-control">
               <input
                 type="submit"
@@ -102,7 +90,7 @@ const Modal = () => {
             </div>
 
             <p className="my-2 text-center">
-              Donot have an account?{" "}
+              Don't have an account?{" "}
               <Link className="ml-1 underline text-red" to="/signup">
                 Signup Now
               </Link>
@@ -116,24 +104,15 @@ const Modal = () => {
             </button>
           </form>
 
-          {/* social sign in */}
+          {/* Social sign in */}
           <div className="mb-5 space-x-3 text-center">
-            <button
-              className="btn btn-circle hover:bg-green hover:text-white"
-              onClick={handleLogin}
-            >
+            <button className="btn btn-circle hover:bg-green hover:text-white">
               <FaGoogle />
             </button>
-
-            <button
-              className="btn btn-circle hover:bg-green hover:text-white"
-              onClick={handleFacebookLogin}
-            >
+            <button className="btn btn-circle hover:bg-green hover:text-white">
               <FaFacebookF />
             </button>
-
-            <button className="btn btn-circle hover:bg-green hover:text-white"
-            onClick={handleGithubLogin}>
+            <button className="btn btn-circle hover:bg-green hover:text-white">
               <FaGithub />
             </button>
           </div>
