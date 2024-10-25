@@ -93,8 +93,8 @@ function NavBar() {
             </ul>
           </div>
           <a href="/">
-            <p className="text-sm text-bold" style={{ width: "200px" }}>
-              <span className="text-sm text-bold text-green">Fuel Station Owner </span>
+            <p className="text-md text-bold" style={{ width: "200px" }}>
+              <span className=" text-md text-bold text-green">Fuel Station Owner </span>
               Portal
             </p>
           </a>
