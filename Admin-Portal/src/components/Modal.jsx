@@ -53,7 +53,7 @@ const Modal = ({ station, isOpen, onClose, onSave, handleInputChange }) => {
               Cancel
             </button>
             <button className="btn btn-primary" onClick={onSave}>
-              Save
+              Update
             </button>
           </div>
         </div>

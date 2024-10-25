@@ -6,60 +6,30 @@ const StationList = () => {
     const [selectedStation, setSelectedStation] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
 
-    // Dummy data for testing
-    const dummyStations = [
-    {
-      id: 1,
-      stationName: 'Station 1',
-      stationAddress: '123 Main St',
-      ownerName: 'John Doe',
-      ownerEmail: 'john@example.com',
-      dieselQuota: 5000,
-      superDieselQuota: 3000,
-      petrol92Quota: 10000,
-      petrol95Quota: 4000,
-    },
-    {
-      id: 2,
-      stationName: 'Station 2',
-      stationAddress: '456 Market St',
-      ownerName: 'Jane Smith',
-      ownerEmail: 'jane@example.com',
-      dieselQuota: 6000,
-      superDieselQuota: 4000,
-      petrol92Quota: 8000,
-      petrol95Quota: 3500,
-    },
-    {
-      id: 3,
-      stationName: 'Station 3',
-      stationAddress: '789 Broadway',
-      ownerName: 'Alice Johnson',
-      ownerEmail: 'alice@example.com',
-      dieselQuota: 7000,
-      superDieselQuota: 5000,
-      petrol92Quota: 9000,
-      petrol95Quota: 4500,
-    },];
-
-    useEffect(()=>{
-        setStations(dummyStations);   
-    },[])
-
-    // useEffect(() => {
-    //     axios.get('/api/admin/stations', {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem('token')}`,
-    //       },
-    //     }).then(response => {
-    //         const stationsData = Array.isArray(response.data) ? response.data : [];
-    //         setStations(stationsData);
-    //       })
-    //       .catch(error => {
-    //         setError(error);
-    //       });
-    // }, []);
-
+    const fetchData = async () => {
+      try {
+          const token = localStorage.getItem('token');
+          const response = await fetch('http://localhost:8080/api/admin/stations', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${token}`,
+              },
+          }); 
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setStations(data); // Set the fetched data
+      } catch (error) {
+          console.error('Error fetching data: ', error);
+      }
+    };
+  
+    useEffect(() => {
+        fetchData();
+    }, []);
+  
     // Open modal with station data for editing
     const handleEditClick = (station) => {
         setSelectedStation(station);
@@ -76,34 +46,60 @@ const StationList = () => {
     };
 
     // Save the updated quotas
-    const handleSave = () => {
-        axios
-        .put(
-            '/api/admin/stations/update-fuel-quota',
-            {
-            stationId: selectedStation.id,
-            dieselQuota: selectedStation.dieselQuota,
-            superDieselQuota: selectedStation.superDieselQuota,
-            petrol92Quota: selectedStation.petrol92Quota,
-            petrol95Quota: selectedStation.petrol95Quota,
-            },
-            {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            }
-        )
-        .then((response) => {
-            setModalOpen(false); // Close modal after saving
-        })
-        .catch((error) => {
-            setError('Error updating fuel quotas. Please try again.');
-        });
+    const handleSave = async () => {
+      try {
+          // Perform the PUT request with axios
+          const response = await axios.put(
+              'http://localhost:8080/api/admin/stations/update-fuel-quota',
+              {
+                  stationId: selectedStation.id,
+                  dieselQuota: selectedStation.dieselQuota,
+                  superDieselQuota: selectedStation.superDieselQuota,
+                  petrol92Quota: selectedStation.petrol92Quota,
+                  petrol95Quota: selectedStation.petrol95Quota,
+              },
+              {
+                  headers: {
+                      Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  },
+              }
+          );
+  
+          // Check if the response is successful and handle it
+          if (response.status === 200) {
+              console.log('Fuel quotas updated successfully:', response.data); // Log success response data
+              setModalOpen(false); // Close modal after saving
+              // Update stations list
+              setStations(prevStations => 
+              prevStations.map(station =>
+                  station.id === selectedStation.id
+                      ? { ...station, ...selectedStation }  // Update quotas
+                      : station
+              )
+          );
+          } else {
+              console.error('Unexpected response status:', response.status); // Handle unexpected statuses
+              setError('Unexpected error. Please try again.');
+          }
+      } catch (error) {
+          // Handle errors, including network issues
+          console.error('Error updating fuel quotas:', error);
+          
+          if (error.response) {
+              // Server responded with a status other than 200 range
+              setError(error.response.data.message || 'Error updating fuel quotas. Please try again.');
+          } else if (error.request) {
+              // No response was received after the request was made
+              setError('No response from server. Please check your connection.');
+          } else {
+              // Other error scenarios
+              setError('An error occurred. Please try again.');
+          }
+      }
     };
-
     return (
-    <div className="container mx-auto py-10 px-4 bg-gray-100 m-4 rounded-lg">
-      <h1 className="text-3xl font-semibold text-center mb-8">Stations and Fuel Quotas</h1>
+    <div className="container mx-auto py-10 px-4 bg-gray-200 m-4 rounded-lg">
+      <h1 className="text-3xl font-semibold text-center mb-8">Stations and their Fuel Quotas</h1>
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           <thead className='text-white text-center bg-green'>
@@ -120,8 +116,8 @@ const StationList = () => {
             </tr>
           </thead>
           <tbody className='text-center'>
-            {stations.map((station,index) => (
-              <tr key={index}>
+            {stations.map((station) => (
+              <tr key={station._id} className='text-center transition-colors duration-200 hover:bg-gray-100'>
                 <td>{station.stationName}</td>
                 <td>{station.stationAddress}</td>
                 <td>{station.ownerName}</td>
