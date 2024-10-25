@@ -1,10 +1,23 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useAuth } from "../providers/AuthProvider";
 
 function RegistrationPage() {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+
+  // Check for token and username
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      navigate("/signup");
+    }else{
+      navigate("/registration");
+    }
+  }, [isLoggedIn, navigate]);
+
   const [formData, setFormData] = useState({
     registrationNumber: "",
     ownerName: "",
@@ -37,8 +50,8 @@ function RegistrationPage() {
       <motion.h4
         className="mb-8 text-2xl font-bold text-center text-green"
         initial={{ opacity: 0, scale: 0.5 }} // start state (invisible and scaled down)
-        animate={{ opacity: 1, scale: 1 }}    // end state (fully visible and normal scale)
-        transition={{ duration: 0.5 }}         // animation duration
+        animate={{ opacity: 1, scale: 1 }} // end state (fully visible and normal scale)
+        transition={{ duration: 0.5 }} // animation duration
       >
         Vehicle Registration
       </motion.h4>
@@ -86,11 +99,12 @@ function RegistrationPage() {
 
         {/* Second row: Engine Number and Vehicle Class */}
         <div className="flex flex-wrap -mx-4">
-          <motion.div 
-          className="w-full px-4 mb-4 md:w-1/2 md:mb-0"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}>
+          <motion.div
+            className="w-full px-4 mb-4 md:w-1/2 md:mb-0"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <label className="block mb-2 text-sm font-medium text-green">
               Engine Number
             </label>
@@ -104,10 +118,12 @@ function RegistrationPage() {
             />
           </motion.div>
 
-          <motion.div className="w-full px-4 mb-4 md:w-1/2 md:mb-0"
+          <motion.div
+            className="w-full px-4 mb-4 md:w-1/2 md:mb-0"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}>
+            transition={{ duration: 0.5 }}
+          >
             <label className="block mb-2 text-sm font-medium text-green">
               Vehicle Class
             </label>
@@ -124,10 +140,12 @@ function RegistrationPage() {
 
         {/* Third row: Model and Year of Manufacture */}
         <div className="flex flex-wrap -mx-4">
-          <motion.div className="w-full px-4 mb-4 md:w-1/2 md:mb-0"
+          <motion.div
+            className="w-full px-4 mb-4 md:w-1/2 md:mb-0"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}>
+            transition={{ duration: 0.5 }}
+          >
             <label className="block mb-2 text-sm font-medium text-green">
               Model
             </label>
@@ -141,10 +159,12 @@ function RegistrationPage() {
             />
           </motion.div>
 
-          <motion.div className="w-full px-4 md:w-1/2"
+          <motion.div
+            className="w-full px-4 md:w-1/2"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}>
+            transition={{ duration: 0.5 }}
+          >
             <label className="block mb-2 text-sm font-medium text-green">
               Year of Manufacture
             </label>
@@ -159,10 +179,11 @@ function RegistrationPage() {
         </div>
 
         {/* Conditions and Notes */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.5 }} 
-          animate={{ opacity: 1, scale: 1 }} 
-          transition={{ duration: 0.5 }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <label className="block mb-2 text-sm font-medium text-green">
             Conditions and Notes
           </label>
@@ -177,10 +198,12 @@ function RegistrationPage() {
 
         {/* Make and Ownership Name */}
         <div className="flex flex-wrap -mx-4">
-          <motion.div className="w-full px-4 mb-4 md:w-1/2 md:mb-0"
+          <motion.div
+            className="w-full px-4 mb-4 md:w-1/2 md:mb-0"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}>
+            transition={{ duration: 0.5 }}
+          >
             <label className="block mb-2 text-sm font-medium text-green">
               Make
             </label>
@@ -194,10 +217,12 @@ function RegistrationPage() {
             />
           </motion.div>
 
-          <motion.div className="w-full px-4 md:w-1/2"
+          <motion.div
+            className="w-full px-4 md:w-1/2"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}>
+            transition={{ duration: 0.5 }}
+          >
             <label className="block mb-2 text-sm font-medium text-green">
               Ownership Name
             </label>
@@ -234,7 +259,6 @@ function RegistrationPage() {
             Register Vehicle
           </button>
         </div>
-
       </form>
     </div>
   );

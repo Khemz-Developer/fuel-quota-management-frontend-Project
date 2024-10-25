@@ -4,19 +4,19 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Modal from "./SignInModal";
 import Profile from "./Profile";
+import { useAuth } from "../providers/AuthProvider";
+
 
 function NavBar() {
   const [isSticky, setSticky] = useState(false);
   const location = useLocation(); // Get current path
   
+  const defaultPhotoURL = "https://w1.pngwing.com/pngs/743/500/png-transparent-circle-silhouette-logo-user-user-profile-green-facial-expression-nose-cartoon-thumbnail.png"; // Replace with your default photo URL
 
-  // const user = {
-  //   name: "John Doe", // Example user name
-  //   email: "john.doe@example.com" // Example user email
-  // };
+  const { userName,token,logout } = useAuth();
+  console.log(userName,token);
 
-  const user = null; // Set user to null to show the login button
-
+   
   
   useEffect(() => {
     const handleScroll = () => {
@@ -72,8 +72,8 @@ function NavBar() {
         </div>
         <div className="navbar-end">
          {
-          user? (
-            <Profile user={user} />
+          userName? (
+            <Profile user={{ name: userName, photoURL: defaultPhotoURL }} />
           ) : (
             <button
               onClick={() => document.getElementById("my_modal_5").showModal()}

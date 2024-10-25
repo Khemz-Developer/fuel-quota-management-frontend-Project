@@ -1,8 +1,20 @@
 import PropTypes from "prop-types"; // Import PropTypes
 
-import { Link } from "react-router-dom";
+
 import { FaUserCircle } from "react-icons/fa";
+import { useAuth } from "../providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
+
 const Profile = ({ user }) => {
+
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+   // Logout function
+   const handleLogout = () => {
+    logout(); // Call the logout function from useAuth
+    navigate("/"); // Redirect to the home page
+  };
   return (
     <div>
       <div className="z-50 drawer drawer-end">
@@ -41,12 +53,12 @@ const Profile = ({ user }) => {
             {/* <li>
               <a href="/order">Order</a>
             </li> */}
-            
+
             {/* <li>
               <Link to="/dashboard">Dashboard</Link>
             </li> */}
             <li>
-              <a>Logout</a>
+              <button onClick={handleLogout} className="text-left">Logout</button>
             </li>
           </ul>
         </div>
