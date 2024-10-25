@@ -47,17 +47,17 @@ const MyStations = () => {
         <div className='container mx-auto my-6'>
             <h2 className="text-2xl font-semibold mb-6">My Fuel Stations</h2>
             <div className="card shadow-x1 bg-gray-100">
-                <div className='overflow-x-auto transition-transform transform hover:scale-105 hover:bg-gray-300  duration-300'>
-                    <table className='w-full bg-gray-100'>
-                        <thead> 
-                            <tr className='border border-black'>
+                <div className='overflow-x-auto'>
+                    <table className="table w-full">
+                        <thead className="text-white text-center  bg-green"> 
+                            <tr>
                                 <th rowSpan={2} className='border border-black'>Fuel Station No.</th>
                                 <th rowSpan={2} className='border border-black'>Location</th>
                                 <th colSpan={2} className='border border-black'>Fuel Stock Capacity</th>
                                 <th colSpan={2} className='border border-black'>Used Amount</th>
                                 <th colSpan={2} className='border border-black'>Remaining Stock</th>
                             </tr>
-                            <tr className='border border-black'>
+                            <tr>
                                 <th className='border border-black'>Petrol</th>
                                 <th className='border border-black'>Diesel</th>
                                 <th className='border border-black'>Petrol</th>
@@ -68,7 +68,7 @@ const MyStations = () => {
                         </thead>
                         <tbody className='border border-black'>
                             {stationRows.map((row)=>(
-                                <tr key={row._id} className='text-center border border-black'>
+                                <tr key={row._id} className='text-center '>
                                         <td className='border border-black'>{row.fuelStationNo}</td>
                                         <td className='border border-black'>{row.location}</td>
                                         <td className='border border-black'>{row.FuelStockCapacity.Petrol}</td> 

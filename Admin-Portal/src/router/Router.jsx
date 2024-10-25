@@ -4,8 +4,8 @@ import Signup from "../components/Signup";
 import StationOwners from "../components/StationOwners";
 import VehicleManagement from "../components/VehicleManagement";
 import Main from "../layout/Main";
+import Dashboard from "../pages/Dashboard";
 import Home from "../pages/Home";
-
 
 const router = createBrowserRouter([
     {
@@ -15,7 +15,11 @@ const router = createBrowserRouter([
         {
             path:"/",
             element:<Home/>
-          },
+        },
+        {
+          path: "/menu",
+          element: <Dashboard/>,
+        }
       ]
     },
     {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
-import Modal from "./SignInModal";
 import Profile from "./Profile";
+import Modal from "./SignInModal";
 function NavBar() {
   const [isSticky, setSticky] = useState(false);
 
@@ -41,7 +41,7 @@ function NavBar() {
       </li>
       <li>
         <a className="text-black" href="/menu">
-          About
+          Dashboard
         </a>
       </li>
 

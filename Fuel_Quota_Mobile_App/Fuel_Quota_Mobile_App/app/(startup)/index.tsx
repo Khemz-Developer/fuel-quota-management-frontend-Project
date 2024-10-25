@@ -76,12 +76,15 @@
 //     marginBottom:40
 //   }
 // })
-import React from 'react';
-import { Text, View, Image, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useFonts } from 'expo-font';
 import { Stack, useRouter } from "expo-router";
+import React from 'react';
+import { ActivityIndicator, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '../../constants/Colors';
-import { StyleSheet } from "react-native";
+
+// Get screen dimensions
+const { width, height } = Dimensions.get('window');
 
 export default function Index() {
   const router = useRouter();
@@ -100,63 +103,86 @@ export default function Index() {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={{
-        backgroundColor: "#176B87",
-        justifyContent: "center",
-        alignItems: "center",
-        height: 100,
-        borderBottomRightRadius: 40,
-        borderBottomLeftRadius: 40,
-        borderTopLeftRadius:40,
-        borderTopRightRadius:40,
-      }}>
-        <Text style={{ color: '#fff', fontSize: 20, fontFamily: 'outfit-light' ,marginTop:30}}>Welcome to Fuel Quota App !</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Welcome to Fuel Quota App!</Text>
       </View>
-      <View
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginTop: 80,
-        }}
-      >
+      <View style={styles.imageContainer}>
         <Image
-          style={{
-            width: 300,
-            height: 400,
-            borderColor: Colors.PRIMARY,
-            borderRadius:14,
-            borderWidth:2,
-          }}
+          style={styles.image}
           source={require("./../../assets/images/login.png")}
         />
       </View>
 
       <View style={styles.style1}>
-        <Text style={{ fontSize: 30, fontFamily: 'outfit-bold', textAlign: 'center' }}>
+        <Text style={styles.mainText}>
           Your Ultimate
-          <Text style={{ color: '#176B87' }}> Community  Fuel Quota</Text> App
+          <Text style={styles.highlightedText}> Community Fuel Quota</Text> App
         </Text>
-        <Text style={{ fontSize: 15, fontFamily: 'outfit', marginVertical: 20, textAlign: 'center', color: Colors.GRAY }}>
-        Effortlessly scan QR codes to track fuel capacity and update vehicle records
+        <Text style={styles.description}>
+          Effortlessly scan QR codes to track fuel capacity and update vehicle records
         </Text>
         <TouchableOpacity onPress={handleNavigation}>
           <Text style={styles.btn}>Let's Get Started!</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#176B87",
+    justifyContent: "center",
+    alignItems: "center",
+    height: height * 0.12, // Relative height for responsiveness
+    borderBottomRightRadius: 40,
+    borderBottomLeftRadius: 40,
+    // borderTopLeftRadius: 40,
+    //borderTopRightRadius: 40,
+  },
+  headerText: {
+    color: '#fff',
+    fontSize: width * 0.05, // Dynamic font size based on screen width
+    fontFamily: 'outfit-light',
+    marginTop: 30,
+  },
+  imageContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginTop: 50,
+    height: height * 0.4, // Image takes half of the screen height
+  },
+  image: {
+    width: width * 0.6, // Dynamic image width
+    height: height * 0.4, // Dynamic image height
+    borderColor: Colors.PRIMARY,
+    borderRadius: 14,
+    borderWidth: 2,
+  },
   style1: {
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
   },
+  mainText: {
+    fontSize: width * 0.07, // Dynamic font size based on screen width
+    fontFamily: 'outfit-bold',
+    textAlign: 'center',
+  },
+  highlightedText: {
+    color: '#176B87',
+  },
+  description: {
+    fontSize: width * 0.04, // Dynamic description text size
+    fontFamily: 'outfit',
+    marginVertical: 20,
+    textAlign: 'center',
+    color: Colors.GRAY,
+  },
   btn: {
-    fontSize: 18,
+    fontSize: width * 0.05, // Button text size dynamic
     fontFamily: 'outfit-bold',
     color: '#fff',
     backgroundColor: '#176B87',
@@ -167,3 +193,4 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
 });
+
