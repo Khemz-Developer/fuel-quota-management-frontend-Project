@@ -4,45 +4,68 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "../providers/AuthProvider";
+import axios from "axios";
 
 function RegistrationPage() {
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn,token } = useAuth();
 
   // Check for token and username
   useEffect(() => {
     if (!isLoggedIn()) {
       navigate("/signup");
-    }else{
+    } else {
       navigate("/registration");
     }
   }, [isLoggedIn, navigate]);
 
+  // Form state
   const [formData, setFormData] = useState({
+    engineCapacity: "",
     registrationNumber: "",
-    ownerName: "",
     engineNumber: "",
     vehicleClass: "",
-    conditionsAndNotes: "",
-    make: "",
     model: "",
-    selectedDate: "",
-    ownershipName: "",
-    isMortgaged: false,
+    manufacturedYear: "", // Updated key to match backend
+    manufacturer: "",
+    fuelType: "",
   });
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+
+    // Define the authorization token
+   
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/api/vehicles/register",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Vehicle registered successfully:", response.data);
+      // Navigate to a success page or display success message
+      navigate("/"); // update to your desired route
+    } catch (error) {
+      if (error.response) {
+        console.error("Server responded with:", error.response.data);
+      } else {
+        console.error("Error registering vehicle:", error.message);
+      }
+    }
   };
 
   return (
@@ -59,21 +82,21 @@ function RegistrationPage() {
         {/* First row: Owner Name and Registration Number */}
         <div className="flex flex-wrap -mx-4">
           <motion.div
-            className="w-full px-4 mb-4 md:w-1/2 md:mb-0"
+            className="w-full px-4 md:w-1/2"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
           >
             <label className="block mb-2 text-sm font-medium text-green">
-              Owner Name
+              Engine Capacity
             </label>
             <input
-              type="text"
-              name="ownerName"
-              placeholder="Owner's Name"
-              value={formData.ownerName}
+              type="number"
+              name="engineCapacity"
+              placeholder="Engine Capacity"
+              value={formData.engineCapacity}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-custom placeholder-custom"
+              className="w-full px-4 py-2 border rounded-lg shadow-sm placeholder-custom focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green"
             />
           </motion.div>
 
@@ -169,32 +192,15 @@ function RegistrationPage() {
               Year of Manufacture
             </label>
             <input
-              type="date"
-              name="yearOfManufacture"
-              value={formData.yearOfManufacture}
+              type="number"
+              name="manufacturedYear"
+              placeholder="2020"
+              value={formData.manufacturedYear}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-green-500 rounded-lg shadow-sm text-placeholder placeholder-custom focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </motion.div>
         </div>
-
-        {/* Conditions and Notes */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <label className="block mb-2 text-sm font-medium text-green">
-            Conditions and Notes
-          </label>
-          <textarea
-            name="conditionsAndNotes"
-            placeholder="Enter any conditions or notes"
-            value={formData.conditionsAndNotes}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg shadow-sm placeholder-custom focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-        </motion.div>
 
         {/* Make and Ownership Name */}
         <div className="flex flex-wrap -mx-4">
@@ -205,13 +211,13 @@ function RegistrationPage() {
             transition={{ duration: 0.5 }}
           >
             <label className="block mb-2 text-sm font-medium text-green">
-              Make
+              Manufacturer
             </label>
             <input
               type="text"
-              name="make"
+              name="manufacturer"
               placeholder="Vehicle Make"
-              value={formData.make}
+              value={formData.manufacturer}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg shadow-sm placeholder-custom focus:outline-none focus:ring-2 focus:ring-green-500"
             />
@@ -224,31 +230,17 @@ function RegistrationPage() {
             transition={{ duration: 0.5 }}
           >
             <label className="block mb-2 text-sm font-medium text-green">
-              Ownership Name
+              Fuel Type
             </label>
             <input
               type="text"
-              name="ownershipName"
+              name="fuelType"
               placeholder="Owner's Name"
-              value={formData.ownershipName}
+              value={formData.fuelType}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg shadow-sm placeholder-custom focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </motion.div>
-        </div>
-
-        {/* Is Mortgaged */}
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            name="isMortgaged"
-            checked={formData.isMortgaged}
-            onChange={handleChange}
-            className="w-4 h-4 text-green-500 border-gray-300 rounded placeholder-custom focus:ring-green-500"
-          />
-          <label className="ml-2 text-sm text-gray-600">
-            Is this vehicle mortgaged?
-          </label>
         </div>
 
         <div className="flex justify-center">
