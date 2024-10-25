@@ -5,12 +5,14 @@ import { Colors } from "../../constants/Colors";
 import { Link, router, Stack } from "expo-router";
 import Header from "../../components/Auth/Header";
 import axios from "axios";
-
+import { useAuth } from "../provider/AuthProvider";
 import { Alert } from "react-native";
 
 const SignInScreen = () => {
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
+  const { signIn } = useAuth();
+
 
     // Function to handle sign-in
     const handleSignIn = async () => {
@@ -23,13 +25,12 @@ const SignInScreen = () => {
         // Assuming your backend returns a JWT token
         const { jwtToken } = response.data;
   
-        // Store the token securely (e.g., AsyncStorage)
-        // Navigate to the next screen after successful login
-        // You may use Expo Router to navigate
-        // Example: router.push("/(user)");
+        // Store the token in the context
+        signIn(jwtToken, userName);
+        
   
         Alert.alert("Login Successfully!");
-        console.log("Token: ", jwtToken);
+       
         router.push("/(user)");
 
       } catch (error) {

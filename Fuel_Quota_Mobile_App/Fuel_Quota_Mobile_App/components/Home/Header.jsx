@@ -2,10 +2,13 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import { Colors } from "../../constants/Colors";
 import FuelStationInfo from "./FuelStationInfo";
+import { useAuth } from '../../app/provider/AuthProvider';
 
 export default function Header() {
+
+  const { userName, token, signOut } = useAuth();
   const user = {
-    fullName: "Jalitha Kheminda",
+    fullName: `${userName}`,
     imageUrl:
       "https://media.licdn.com/dms/image/D4E03AQFzkf0M0HUsdQ/profile-displayphoto-shrink_200_200/0/1721762203507?e=2147483647&v=beta&t=Tpa_pnGTex4SBjMGlWHE-Wd65Dh3FvGbZa3BTbQ4etc",
     primaryEmailAddress: {

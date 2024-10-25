@@ -1,5 +1,6 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import { AuthProvider } from "./provider/AuthProvider";
 
 
 
@@ -16,11 +17,13 @@ export default function RootLayout() {
     'outfit-extrabold': require('../assets/fonts/Outfit-ExtraBold.ttf'),
   })
   return (
+    <AuthProvider>
     <Stack>
       <Stack.Screen name="index" options={{headerShown:false}}/>
       <Stack.Screen name="(auth)" options={{headerShown:false}} />
       <Stack.Screen name="(user)" options={{ headerShown: false }} />
       <Stack.Screen name="(startup)" options={{ headerShown: false }} />
     </Stack>
+    </AuthProvider>
   );
 }

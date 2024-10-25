@@ -8,8 +8,12 @@ import { FlatList } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
+import { useAuth } from "../../app/provider/AuthProvider"; // Adjust path as needed
 
 export default function MenuList() {
+
+ 
+  const { signOut } = useAuth(); 
   const menuList = [
     {
       id: 1,
@@ -37,7 +41,7 @@ export default function MenuList() {
     },
   ];
 
-  const onMenuClick = (item) => {
+  const onMenuClick = async(item) => {
     if (item.id == 1) {
       router.push(item.path);
     }
@@ -54,6 +58,7 @@ export default function MenuList() {
     }
 
     if (item.id == 4) {
+      await signOut();
       router.push(item.path);
       
     }
