@@ -26,7 +26,7 @@ const Signup = () => {
 
       console.log('User registered successfully:', response.data);
       
-      navigate('/registration'); // Redirect to the homepage
+      navigate('/'); // Redirect to the homepage
       
       // Display success alert
       Swal.fire({

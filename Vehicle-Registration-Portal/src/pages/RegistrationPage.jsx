@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "../providers/AuthProvider";
@@ -8,7 +7,7 @@ import axios from "axios";
 
 function RegistrationPage() {
   const navigate = useNavigate();
-  const { isLoggedIn,token } = useAuth();
+  const { isLoggedIn, token } = useAuth();
 
   // Check for token and username
   useEffect(() => {
@@ -43,7 +42,6 @@ function RegistrationPage() {
     e.preventDefault();
 
     // Define the authorization token
-   
 
     try {
       const response = await axios.post(
@@ -232,14 +230,20 @@ function RegistrationPage() {
             <label className="block mb-2 text-sm font-medium text-green">
               Fuel Type
             </label>
-            <input
-              type="text"
+            <select
               name="fuelType"
-              placeholder="Owner's Name"
               value={formData.fuelType}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg shadow-sm placeholder-custom focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
+              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option value="" disabled>
+                Select Fuel Type
+              </option>
+              <option value="DIESEL">DIESEL</option>
+              <option value="PETROL_92_OCTANE">PETROL 92 OCTANE</option>
+              <option value="PETROL_95_OCTANE">PETROL 95 OCTANE</option>
+              <option value="SUPER_DIESEL">SUPER DIESEL</option>
+            </select>
           </motion.div>
         </div>
 
