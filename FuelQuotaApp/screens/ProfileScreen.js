@@ -1,14 +1,18 @@
-// screens/HomeScreen.js
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 
-export default function HomeScreen({ navigation }) {
+const ProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.settings}>☰ Settings</Text>
+      <Text style={styles.title}>Profile</Text>
+      <Button
+        title="Logout"
+        onPress={() => navigation.navigate("Login")}
+        color="#002B5B"
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -16,11 +20,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  settings: {
-    position: "absolute", // Free positioning
-    top: 20, // Distance from the top
-    left: 20, // Distance from the left (upper left corner)
+  title: {
     fontSize: 24,
     color: "#002B5B",
+    marginBottom: 20,
   },
 });
+
+export default ProfileScreen;
