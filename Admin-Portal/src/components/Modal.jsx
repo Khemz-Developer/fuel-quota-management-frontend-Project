@@ -1,8 +1,42 @@
-import React from 'react';
-
-const Modal = ({ station, isOpen, onClose, onSave, handleInputChange }) => {
+import axios from 'axios';
+import React, { useState } from 'react';
+const Modal = ({ station, isOpen, onClose, onSave}) => {
     if (!isOpen) return null; // Do not render if modal is not open
+    const [editedData,setEditedData] = useState({...station});
+    
+    const handleInputChange = (e, field) => {
+        const newValue = e.target.value;
+        setEditedData((prevData) => ({
+            ...prevData,
+            [field]: newValue,
+        }));
+    };
+
+    const handleSave = async () => {
+      try {
+          const token = localStorage.getItem('token'); // Get the token from local storage
   
+          const response = await axios.put(
+              'http://localhost:8080/api/admin/stations/update-fuel-quota',
+              editedData, // Send the edited data as the request body
+              {
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${token}`, // Include the token in the headers
+                  },
+              }
+          );
+  
+          
+  
+          onSave(editedData); // Notify the parent component with the updated data
+      } catch (error) {
+          console.error('Error saving data:', error);
+      } finally {
+          onClose(); // Close the modal
+      }
+    };
+
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
         <div className="bg-white p-6 rounded-lg w-96">
@@ -12,7 +46,7 @@ const Modal = ({ station, isOpen, onClose, onSave, handleInputChange }) => {
             Diesel Quota:
             <input
               type="number"
-              value={station.dieselQuota}
+              value={editedData.dieselQuota}
               onChange={(e) => handleInputChange(e, 'dieselQuota')}
               className="input input-bordered w-full"
             />
@@ -22,7 +56,7 @@ const Modal = ({ station, isOpen, onClose, onSave, handleInputChange }) => {
             Super Diesel Quota:
             <input
               type="number"
-              value={station.superDieselQuota}
+              value={editedData.superDieselQuota}
               onChange={(e) => handleInputChange(e, 'superDieselQuota')}
               className="input input-bordered w-full"
             />
@@ -32,7 +66,7 @@ const Modal = ({ station, isOpen, onClose, onSave, handleInputChange }) => {
             Petrol 92 Quota:
             <input
               type="number"
-              value={station.petrol92Quota}
+              value={editedData.petrol92Quota}
               onChange={(e) => handleInputChange(e, 'petrol92Quota')}
               className="input input-bordered w-full"
             />
@@ -42,7 +76,7 @@ const Modal = ({ station, isOpen, onClose, onSave, handleInputChange }) => {
             Petrol 95 Quota:
             <input
               type="number"
-              value={station.petrol95Quota}
+              value={editedData.petrol95Quota}
               onChange={(e) => handleInputChange(e, 'petrol95Quota')}
               className="input input-bordered w-full"
             />
@@ -52,8 +86,8 @@ const Modal = ({ station, isOpen, onClose, onSave, handleInputChange }) => {
             <button className="btn btn-secondary mr-2" onClick={onClose}>
               Cancel
             </button>
-            <button className="btn btn-primary" onClick={onSave}>
-              Save
+            <button className="btn btn-primary" onClick={handleSave}>
+              Update
             </button>
           </div>
         </div>

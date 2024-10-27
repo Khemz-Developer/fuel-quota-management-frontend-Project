@@ -1,8 +1,8 @@
 
 import { createBrowserRouter } from "react-router-dom";
 import Signup from "../components/Signup";
-import StationOwners from "../components/StationOwners";
 import VehicleManagement from "../components/VehicleManagement";
+import VehicleOwners from "../components/VehicleOwners";
 import Main from "../layout/Main";
 import Dashboard from "../pages/Dashboard";
 import Home from "../pages/Home";
@@ -27,12 +27,12 @@ const router = createBrowserRouter([
       element :<Signup/>
     },
     {
-      path: "/accepted-orders",
-      element :<StationOwners/>
-    },
-    {
       path: "/order",
       element :<VehicleManagement/>
+    },
+    {
+      path: "/vehicle-owner",
+      element :<VehicleOwners/>
     }
   ]);
 

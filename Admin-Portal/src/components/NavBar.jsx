@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
-import Profile from "./Profile";
+import { useAuth } from "../context/authContext";
 import Modal from "./SignInModal";
 function NavBar() {
   const [isSticky, setSticky] = useState(false);
+  const { userName, isLoggedIn, logout } = useAuth();
 
 
-  const user = {
-    name: "John Doe", // Example user name
-    email: "john.doe@example.com", // Example user email
-  };
+  // const user = {
+  //   name: "John Doe", // Example user name
+  //   email: "john.doe@example.com", // Example user email
+  // };
 
-  // const user = undefined;
+  const user = undefined;
 
   
   useEffect(() => {
@@ -34,30 +35,34 @@ function NavBar() {
 
   const navItems = (
     <>
-      <li>
-        <a className="text-black" href="/">
-          Home
-        </a>
-      </li>
-      <li>
-        <a className="text-black" href="/menu">
-          Dashboard
-        </a>
-      </li>
-
-      <li>
-        <details>
-          <summary>Management Page</summary>
-          <ul className="p-2">
-            <li>
-              <a href="/order">Vehicle Management Page</a>
-            </li>
-            <li>
-              <a href="/accepted-orders">Fuel Station Management Page</a>
-            </li>
-          </ul>
-        </details>
-      </li>
+      
+      {isLoggedIn() && ( // Conditionally render Dashboard and Management Pages
+        <>
+          <li>
+            <a className="text-black" href="/">
+              Home
+            </a>
+          </li>
+          <li>
+            <a className="text-black" href="/menu">
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <details>
+              <summary>Management </summary>
+              <ul className="p-2">
+                <li>
+                  <a href="/order">Vehicle Management</a>
+                </li>
+                <li>
+                  <a href="/vehicle-owner">Station Owner Management</a>
+                </li>
+              </ul>
+            </details>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -106,9 +111,14 @@ function NavBar() {
           <ul className="px-1 menu menu-horizontal">{navItems}</ul>
         </div>
         <div className="navbar-end">
-          {user ? (
-            <Profile user={user} />
+          {isLoggedIn() ? (
+            // Show username and logout button when logged in
+            <>
+              <span className="mr-4">Hi, {userName}</span>
+              <button onClick={logout} className="btn btn-primary px-4 py-2 text-white bg-red-500 rounded">Logout</button>
+            </>
           ) : (
+            // Show login button when not logged in
             <button
               onClick={() => document.getElementById("my_modal_5").showModal()}
               className="flex items-center gap-2 px-6 text-white rounded-full btn bg-green"
@@ -117,7 +127,6 @@ function NavBar() {
               Login
             </button>
           )}
-
           <Modal />
         </div>
       </div>

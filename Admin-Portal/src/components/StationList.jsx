@@ -1,157 +1,146 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Modal from './Modal';
 const StationList = () => {
-    const [stations, setStations] = useState([]); 
-    const [selectedStation, setSelectedStation] = useState(null);
-    const [modalOpen, setModalOpen] = useState(false);
-
-    // Dummy data for testing
-    const dummyStations = [
+  const [stations, setStations] = useState([]); 
+  const [selectedStation, setSelectedStation] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  // Dummy data
+  const dummyStations = [
     {
-      id: 1,
-      stationName: 'Station 1',
-      stationAddress: '123 Main St',
+        _id: '1',
+        stationName: 'Fuel Station A',
+        stationAddress: '123 Main St, Cityville',
+        ownerName: 'John Doe',
+        ownerEmail: 'john.doe@example.com',
+        dieselQuota: 1000,
+        superDieselQuota: 800,
+        petrol92Quota: 1200,
+        petrol95Quota: 1000,
+    },
+    {
+      _id: '2',
+      stationName: 'Fuel Station B',
+      stationAddress: '123 Church',
       ownerName: 'John Doe',
-      ownerEmail: 'john@example.com',
-      dieselQuota: 5000,
-      superDieselQuota: 3000,
-      petrol92Quota: 10000,
-      petrol95Quota: 4000,
+      ownerEmail: 'john.doe@example.com',
+      dieselQuota: 1000,
+      superDieselQuota: 800,
+      petrol92Quota: 1200,
+      petrol95Quota: 1000,
     },
     {
-      id: 2,
-      stationName: 'Station 2',
-      stationAddress: '456 Market St',
-      ownerName: 'Jane Smith',
-      ownerEmail: 'jane@example.com',
-      dieselQuota: 6000,
-      superDieselQuota: 4000,
-      petrol92Quota: 8000,
-      petrol95Quota: 3500,
+      _id: '3',
+      stationName: 'Fuel Station C',
+      stationAddress: '43 Church',
+      ownerName: 'John Doe',
+      ownerEmail: 'john.doe@example.com',
+      dieselQuota: 1000,
+      superDieselQuota: 800,
+      petrol92Quota: 2200,
+      petrol95Quota: 1000,
     },
-    {
-      id: 3,
-      stationName: 'Station 3',
-      stationAddress: '789 Broadway',
-      ownerName: 'Alice Johnson',
-      ownerEmail: 'alice@example.com',
-      dieselQuota: 7000,
-      superDieselQuota: 5000,
-      petrol92Quota: 9000,
-      petrol95Quota: 4500,
-    },];
+    // Add other dummy stations as shown above
+  ];
+  // const fetchData = async () => {
+  //     try {
+  //         const token = localStorage.getItem('token');
+  //         const response = await fetch('http://localhost:8080/api/admin/stations', {
+  //             method: 'GET',
+  //             headers: {
+  //                 'Content-Type': 'application/json', 
+  //                 'Authorization': `Bearer ${token}`,
+  //             },
+  //         }); 
+  //         if (!response.ok) {
+  //             throw new Error('Network response was not ok');
+  //         }
+  //         const data = await response.json();
+  //         setStations(data);
+  //     } catch (error) {
+  //         console.error('Error fetching data: ', error);
+  //     }
+  // };
+  const fetchData = async () => {
+    // Simulate fetching data
+    setStations(dummyStations);
+  };
 
-    useEffect(()=>{
-        setStations(dummyStations);   
-    },[])
+  useEffect(() => {
+      fetchData();
+  },[]);
 
-    // useEffect(() => {
-    //     axios.get('/api/admin/stations', {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem('token')}`,
-    //       },
-    //     }).then(response => {
-    //         const stationsData = Array.isArray(response.data) ? response.data : [];
-    //         setStations(stationsData);
-    //       })
-    //       .catch(error => {
-    //         setError(error);
-    //       });
-    // }, []);
+  const handleEditClick = (station) => {
+      setSelectedStation(station);
+      setModalOpen(true);
+  };
 
-    // Open modal with station data for editing
-    const handleEditClick = (station) => {
-        setSelectedStation(station);
-        setModalOpen(true);
-    };
-    
-    // Handle input change inside the modal
-    const handleInputChange = (e, field) => {
-        const newValue = e.target.value;
-        setSelectedStation((prevStation) => ({
-        ...prevStation,
-        [field]: newValue,
-        }));
-    };
+  const handleModalClose = () => {
+    // Clear the selectedVacancy and close the modal
+    setSelectedStation(null);
+    setModalOpen(false);
+  };
 
-    // Save the updated quotas
-    const handleSave = () => {
-        axios
-        .put(
-            '/api/admin/stations/update-fuel-quota',
-            {
-            stationId: selectedStation.id,
-            dieselQuota: selectedStation.dieselQuota,
-            superDieselQuota: selectedStation.superDieselQuota,
-            petrol92Quota: selectedStation.petrol92Quota,
-            petrol95Quota: selectedStation.petrol95Quota,
-            },
-            {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            }
-        )
-        .then((response) => {
-            setModalOpen(false); // Close modal after saving
-        })
-        .catch((error) => {
-            setError('Error updating fuel quotas. Please try again.');
-        });
-    };
 
-    return (
-    <div className="container mx-auto py-10 px-4 bg-gray-100 m-4 rounded-lg">
-      <h1 className="text-3xl font-semibold text-center mb-8">Stations and Fuel Quotas</h1>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          <thead className='text-white text-center bg-green'>
-            <tr>
-              <th>Station Name</th>
-              <th>Address</th>
-              <th>Owner Name</th>
-              <th>Owner Email</th>
-              <th>Diesel Quota</th>
-              <th>Super Diesel Quota</th>
-              <th>Petrol 92 Quota</th>
-              <th>Petrol 95 Quota</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody className='text-center'>
-            {stations.map((station,index) => (
-              <tr key={index}>
-                <td>{station.stationName}</td>
-                <td>{station.stationAddress}</td>
-                <td>{station.ownerName}</td>
-                <td>{station.ownerEmail}</td>
-                <td>{station.dieselQuota}</td>
-                <td>{station.superDieselQuota}</td>
-                <td>{station.petrol92Quota}</td>
-                <td>{station.petrol95Quota}</td>
-                <td>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => handleEditClick(station)}
-                  >
-                    View & Update
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+  const handleSave = async (updatedStation) => {
+    // Update the stationList with the edited station data
+    setStations((prevList) =>
+      prevList.map((station) =>
+        station.id === updatedStation.id ? updatedStation : station
+      )
+  );
+  };
+
+  return (
+      <div className="container mx-auto py-10 px-4 bg-gray-200 m-4 rounded-lg">
+          <h1 className="text-3xl font-semibold text-center mb-8">Stations and their Fuel Quotas</h1>
+          <div className="overflow-x-auto">
+              <table className="table table-zebra w-full">
+                  <thead className='text-white text-center bg-green'>
+                      <tr>
+                          <th>Station Name</th>
+                          <th>Address</th>
+                          <th>Owner Name</th>
+                          <th>Owner Email</th>
+                          <th>Diesel Quota</th>
+                          <th>Super Diesel Quota</th>
+                          <th>Petrol 92 Quota</th>
+                          <th>Petrol 95 Quota</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody className='text-center'>
+                      {stations.map((station) => (
+                          <tr key={station._id} className='text-center transition-colors duration-200 hover:bg-gray-100'>
+                              <td>{station.stationName}</td>
+                              <td>{station.stationAddress}</td>
+                              <td>{station.ownerName}</td>
+                              <td>{station.ownerEmail}</td>
+                              <td>{station.dieselQuota}</td>
+                              <td>{station.superDieselQuota}</td>
+                              <td>{station.petrol92Quota}</td>
+                              <td>{station.petrol95Quota}</td>
+                              <td>
+                                  <button
+                                      className="btn btn-primary"
+                                      onClick={() => handleEditClick(station)}
+                                  >
+                                      View & Update
+                                  </button>
+                              </td>
+                          </tr>
+                      ))}
+                  </tbody>
+              </table>
+          </div>
+
+          {/* Edit Modal Component */}
+          <Modal
+              station={selectedStation}
+              isOpen={modalOpen}
+              onClose={handleModalClose}
+              onSave={handleSave}
+          />
       </div>
-       {/* Edit Modal Component */}
-       <Modal
-       station={selectedStation}
-       isOpen={modalOpen}
-       onClose={() => setModalOpen(false)}
-       onSave={handleSave}
-       handleInputChange={handleInputChange}
-       />
-    </div>
   );
 }
 
