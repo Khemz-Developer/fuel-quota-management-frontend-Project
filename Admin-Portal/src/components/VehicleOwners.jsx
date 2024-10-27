@@ -5,6 +5,33 @@ const VehicleOwners = () => {
     const [vehicleOwnerRows, setVehicleOwnerRows] = useState([]);
     const [selectedOwner, setSelectedOwner] = useState(null);
 
+    const dummyData = [
+        {
+            _id: "1",
+            fullName: "Kumara",
+            email: "Kumara@example.com",
+            username: "dw123",
+            idCardNumber: "12343789",
+            phoneNumber: "+754324294",
+        },
+        {
+            _id: "2",
+            fullName: "Janitha Fernando",
+            email: "janitha@example.com",
+            username: "jani",
+            idCardNumber: "987654321",
+            phoneNumber: "+754321194",
+        },
+        {
+            _id: "3",
+            fullName: "Michael Sam",
+            email: "michael.sam@example.com",
+            username: "michaelj",
+            idCardNumber: "947654321",
+            phoneNumber: "+774310194",
+        },
+    ]
+
     // useEffect(() => {
     //     // Simulate setting fetched data
     //     setVehicleOwnerRows(dummyData);
@@ -12,37 +39,38 @@ const VehicleOwners = () => {
     
     // Fetch data using fetch API
     // Function to get station names
-    const getStationNames = (stations) => {
-        if (!stations || stations.length === 0) return 'No Stations'; 
-        return stations.map(station => station.name).join(', '); 
-    }
-    const fetchData = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8080/api/admin/station-owners', {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json', 
-                  'Authorization': `Bearer ${token}`,
-                },
-            }); 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            setVehicleOwnerRows(data); // Set the fetched data
-        } catch (error) {
-            console.error('Error fetching data: ', error);
-        }
-    };
+    // const getStationNames = (stations) => {
+    //     if (!stations || stations.length === 0) return 'No Stations'; 
+    //     return stations.map(station => station.name).join(', '); 
+    // }
     
-    useEffect(() => {
-        fetchData();
-    }, []);
     
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const token = localStorage.getItem('token');
+    //             const response = await fetch('http://localhost:8080/api/admin/station-owners', {
+    //                 method: 'GET',
+    //                 headers: {
+    //                   'Content-Type': 'application/json', 
+    //                   'Authorization': `Bearer ${token}`,
+    //                 },
+    //             }); 
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
+    //             const data = await response.json();
+    //             setVehicleOwnerRows(data); // Set the fetched data
+    //         } catch (error) {
+    //             console.error('Error fetching data: ', error);
+    //         }
+    //     };
+    //     fetchData();    
+    // },[]);
+
+    useEffect(()=>{
+        setVehicleOwnerRows(dummyData);
+    },[])
     
     // Handle View
     const handleView = (vehicleId) => {
@@ -63,7 +91,6 @@ const VehicleOwners = () => {
                     <th>Username</th>
                     <th>ID Card Number</th>
                     <th>Phone Number</th>
-                    <th>Station Names</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -75,7 +102,6 @@ const VehicleOwners = () => {
                     <td>{row.username}</td>
                     <td>{row.idCardNumber}</td>
                     <td>{row.phoneNumber}</td>
-                    <td>{getStationNames(row.stations)}</td>
                     <td>
                         <button onClick={() => handleView(row._id)} className="btn btn-error mr-2">View</button>
                     </td>

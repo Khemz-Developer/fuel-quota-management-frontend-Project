@@ -1,29 +1,37 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 const StationRegisterform = () => {
       const [formData, setFormData] = useState({
-        fuelStationName: "",
+        name: "",
         address: "",
-        fuelStationOwner: "",
+        ownerUsername: "",
       });
       const [isOpen, setIsOpen] = useState(false); // State to control modal visibility
       const [message, setMessage] = useState('');
       const [messageType, setMessageType] = useState('');
       const [owners, setOwners] = useState([]);
 
-      // useEffect(() => {
-      //   // Fetch the list of owner usernames when the component mounts
-      //   const fetchOwners = async () => {
-      //     try {
-      //       const response = await axios.get('http://localhost:8080/api/owners'); // Update the URL as needed
-      //       setOwners(response.data); // Assume response contains an array of usernames
-      //     } catch (error) {
-      //       console.error("Error fetching owners: ", error);
-      //     }
-      //   };
+      // Fetch the list of owner usernames when the component mounts
+      useEffect(() => {
+        const fetchOwners = async () => {
+          const token = localStorage.getItem('token'); // Retrieve token from local storage
+          try {
+            const response = await axios.get('http://localhost:8080/api/admin/station-owners/usernames', {
+              headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the headers
+              }
+            });
+            setOwners(response.data); // Assume response contains an array of owner objects
+          } catch (error) {
+            console.error("Error fetching owners: ", error);
+            setMessage('Error fetching owners.');
+            setMessageType('error');
+          }
+        };
     
-      //   fetchOwners();
-      // }, []);
+        fetchOwners();
+      }, []);
+
     
       const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,7 +46,7 @@ const StationRegisterform = () => {
         console.log(formData);
         const token = localStorage.getItem('token'); 
         try {
-          const response = await axios.post('http://localhost:8080/api/station-owner/register-station', formData, {
+          const response = await axios.post('http://localhost:8080/api/admin/stations/register', formData, {
               headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${token}`, 
@@ -48,6 +56,7 @@ const StationRegisterform = () => {
           if (response.status === 200) {
               setMessage('Station registered successfully!');
               setMessageType('success');
+               
           } else {
               setMessage('Failed to register station.');
               setMessageType('error');
@@ -77,9 +86,9 @@ const StationRegisterform = () => {
                 </label>
                 <input
                   type="text"
-                  name="fuelStationName"
+                  name="name"
                   placeholder="Fuel Station's Name"
-                  value={formData.fuelStationName}
+                  value={formData.name}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-custom placeholder-custom"
                 />
@@ -104,15 +113,15 @@ const StationRegisterform = () => {
                     Fuel Station Owner Username
                     </label>
                     <select
-                    name="fuelStationOwner"
-                    value={formData.fuelStationOwner}
+                    name="ownerUsername"
+                    value={formData.ownerUsername}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-custom placeholder-custom"
                     >
                     <option value="" disabled>Select Owner Username</option>
                     {owners.map((owner) => (
-                        <option key={owner.id} value={owner.username}>
-                        {owner.username}
+                        <option key={owner.id} value={owner}>
+                        {owner}
                         </option>
                     ))}
                     </select>

@@ -56,7 +56,7 @@ function NavBar() {
                   <a href="/order">Vehicle Management</a>
                 </li>
                 <li>
-                  <a href="/vehicle-owner">Vehicle Owner Management</a>
+                  <a href="/vehicle-owner">Station Owner Management</a>
                 </li>
               </ul>
             </details>
