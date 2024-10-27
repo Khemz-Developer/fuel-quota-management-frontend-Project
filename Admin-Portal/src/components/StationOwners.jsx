@@ -95,7 +95,7 @@ const StationOwners = () => {
         <h2 className="text-2xl font-semibold mb-4">Fuel Station Registrations</h2>
         <div className="overflow-x-auto">
           <table className="table w-full">
-            <thead>
+            <thead className="bg-green text-white text-center">
               <tr>
                 <th>Fuel Station Name</th>
                 <th>Location</th>
@@ -106,7 +106,7 @@ const StationOwners = () => {
             </thead>
             <tbody>
               {stationRows.map((row) => (
-                <tr key={row._id}>
+                <tr key={row._id} className='text-center transition-colors duration-200 hover:bg-gray-100'>
                   <td>{row.stationName}</td>
                   <td>{row.location}</td>
                   <td>{row.ownerName}</td>

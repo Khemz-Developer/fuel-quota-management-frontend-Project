@@ -60,6 +60,37 @@ const VehicleDetailsScreen = () => {
     fetchVehicleDetails();
   }, [vehicleNumber]);
 
+
+  const pumpFuel = async () => {
+    try {
+      const response = await fetch(
+        "http://192.168.8.100:8081/api/operators/pump-fuel",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add Bearer token here
+          },
+          body: JSON.stringify({
+            registrationNumber: vehicleDetails?.registrationNumber,
+            litersPumped: parseFloat(fuelToPump),
+            fuelType: vehicleDetails?.fuelType,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to pump fuel");
+      }
+
+      const data = await response.json();
+      Alert.alert("Success", `Successfully pumped ${fuelToPump} liters.`);
+      setFuelToPump(""); // Clear the input after successful pumping
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
+  };
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -117,9 +148,7 @@ const VehicleDetailsScreen = () => {
         />
         <Button
           title="Pump Fuel"
-          onPress={() =>
-            Alert.alert("Pump Fuel", `Pumping ${fuelToPump} liters.`)
-          }
+          onPress={pumpFuel} // Call the pumpFuel function on press
           color={Colors.PRIMARY}
         />
       </View>

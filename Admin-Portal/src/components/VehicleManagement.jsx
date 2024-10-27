@@ -85,7 +85,7 @@ const VehicleManagement = () => {
       {/* Vehicle table */}
       <div className="overflow-x-auto">
         <table className="table w-full">
-          <thead>
+          <thead className="bg-green text-white text-center">
             <tr>
               <th>Registration Number</th>
               <th>Owner Name</th>
@@ -98,8 +98,8 @@ const VehicleManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {vehicles.map(vehicle => (
-              <tr key={vehicle._id}>
+            {vehicles.map((vehicle) => (
+              <tr key={vehicle._id} className='text-center transition-colors duration-200 hover:bg-gray-100'>
                 <td>{vehicle.registrationNumber}</td>
                 <td>{vehicle.ownerName}</td>
                 <td>{vehicle.engineNumber}</td>
