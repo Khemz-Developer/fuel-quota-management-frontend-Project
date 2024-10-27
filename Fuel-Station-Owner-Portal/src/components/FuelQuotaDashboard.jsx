@@ -1,119 +1,264 @@
+// import "chart.js/auto";
+// import { useEffect, useState } from "react";
+// import { Pie } from "react-chartjs-2";
+
+
+// const FuelQuotaDashboard = () => {
+//   const [fuelData, setFuelData] = useState([]);
+
+//   const dummyFuelData = [
+//     {
+//       station: "Colombo",
+//       fuel: [
+//         { type: "Petrol 92 Octane", quota: 5000, used: 2000 },
+//         { type: "Petrol 95 Octane", quota: 6000, used: 3000 },
+//         { type: "Diesel", quota: 7000, used: 4000 },
+//         { type: "Super Diesel", quota: 8000, used: 5000 },
+//       ],
+//     },
+//     {
+//       station: "Gampaha",
+//       fuel: [
+//         { type: "Petrol 92 Octane", quota: 6000, used: 3000 },
+//         { type: "Petrol 95 Octane", quota: 7000, used: 4000 },
+//         { type: "Diesel", quota: 8000, used: 5000 },
+//         { type: "Super Diesel", quota: 9000, used: 6000 },
+//       ],
+//     },
+//   ];
+
+//   useEffect(() => {
+//     setFuelData(dummyFuelData);
+//   }, []);
+
+//   const prepareChartData = (fuel) => ({
+//     labels: ["Used Amount", "Remaining"],
+//     datasets: [
+//       {
+//         label: `${fuel.type}`,
+//         data: [fuel.used, fuel.quota - fuel.used],
+//         backgroundColor: ["#FF6868", "#39DB4A"], // Used: Red, Remaining: Green
+//         hoverBackgroundColor: ["#FF6868", "#39DB4A"],
+//       },
+//     ],
+//   });
+
+//   return (
+//     <div className="container p-6 mx-auto">
+//       <div className="mb-8 text-center">
+//         <h2 className="text-2xl font-bold text-primary text-green">
+//           Allocated Fuel Quotas for each Station
+//         </h2>
+//       </div>
+
+//       <div className="space-y-12">
+//         {fuelData.map((station) => (
+//           <div
+//             key={station.station}
+//             className="p-6 mx-4 rounded-md shadow-lg bg-neutral"
+//           >
+//             <h3 className="mb-6 text-xl font-semibold text-center text-primary text-green">
+//               Station: {station.station}
+//             </h3>
+
+//             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+//               {station.fuel.map((fuel) => (
+//                 <div
+//                   key={fuel.type}
+//                   className="p-4 transition-transform transform bg-white rounded-lg shadow-md hover:scale-105"
+//                   style={{ minWidth: "200px" }}
+//                 >
+//                   <p className="mb-2 text-lg font-semibold text-secondary">
+//                     {fuel.type}
+//                   </p>
+//                   <p className="text-sm">Quota: {fuel.quota} liters</p>
+//                   <p className="text-sm">Used: {fuel.used} liters</p>
+//                   <p className="text-sm text-green-700">
+//                     Remaining: {fuel.quota - fuel.used} liters
+//                   </p>
+
+//                   <div className="flex justify-center mt-4">
+//                     <div
+//                       className="relative"
+//                       style={{ width: "160px", height: "160px" }}
+//                     >
+//                       <Pie
+//                         data={prepareChartData(fuel)}
+//                         options={{
+//                           responsive: true,
+//                           maintainAspectRatio: false,
+//                           plugins: {
+//                             legend: {
+//                               display: true,
+//                               position: "bottom",
+//                               labels: {
+//                                 font: { size: 10 },
+//                                 color: "#555",
+//                               },
+//                             },
+//                             tooltip: {
+//                               usePointStyle: true,
+//                               boxWidth: 15,
+//                               callbacks: {
+//                                 labelPointStyle: () => ({
+//                                   pointStyle: "circle",
+//                                   rotation: 0,
+//                                 }),
+//                               },
+//                             },
+//                           },
+//                         }}
+//                       />
+//                     </div>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default FuelQuotaDashboard;
+
 import "chart.js/auto";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
-import StationRegisterform from "./StationRegisterform";
+import { useAuth } from "../providers/AuthProvider";
 
 const FuelQuotaDashboard = () => {
   const [fuelData, setFuelData] = useState([]);
+  const { token } = useAuth(); // Assuming you are using useAuth to get the token
 
-  const dummyFuelData = [
-    {
-      station: "Station 1",
-      fuel: [
-        { type: "Petrol", quota: 5000, used: 2000 },
-        { type: "Diesel", quota: 7000, used: 5000 },
-      ],
-    },
-    {
-      station: "Station 2",
-      fuel: [
-        { type: "Petrol", quota: 6000, used: 3000 },
-        { type: "Diesel", quota: 8000, used: 6000 },
-      ],
-    },
-  ];
-
-  // Use dummy data for now
   useEffect(() => {
-    setFuelData(dummyFuelData);
-  }, []);
+    const fetchFuelData = async () => {
+      try {
+        const response = await fetch("http://localhost:8081/api/stations/all-with-quotas", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
-  const fetchFuelData = async () => {
-    try {
-      const response = await fetch("/api/fuel-quotas");
-      const data = await response.json();
-      setFuelData(data);
-    } catch (error) {
-      console.error("Error fetching fuel data:", error);
-    }
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const data = await response.json();
+        setFuelData(data); // Set the fetched data to state
+        console.log("Fuel data:", data); // Log fetched data
+      } catch (error) {
+        console.error("Error fetching fuel data:", error);
+      }
+    };
+
+    fetchFuelData(); // Call the function to fetch data
+  }, [token]); // Include token in the dependency array
+
+  // Log fuelData whenever it changes
+  useEffect(() => {
+    console.log("Fuel data updated:", fuelData);
+  }, [fuelData]);
+
+  const prepareChartData = (fuelUsed, quota) => {
+    const remaining = quota - fuelUsed;
+
+    return {
+      labels: ["Used Amount", "Remaining"],
+      datasets: [
+        {
+          label: "Fuel Quota",
+          data: [fuelUsed, remaining],
+          backgroundColor: ["#FF6868", "#39DB4A"], // Used: Red, Remaining: Green
+          hoverBackgroundColor: ["#FF6868", "#39DB4A"],
+        },
+      ],
+    };
   };
 
-  // Preparing the data for the pie chart
-  const prepareChartData = (fuel) => ({
-    labels: ["Used Amount", "Remaining"],
-    datasets: [
-      {
-        label: `${fuel.type} Fuel Quota`,
-        data: [fuel.used, fuel.quota - fuel.used],
-        backgroundColor: ["#1E3A8A", "#FBBF24"],
-        hoverBackgroundColor: ["#1E3A8A", "#FBBF24"],
-      },
-    ],
-  });
-
   return (
-    <div className="container p-2 mx-auto">
-      
-
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-green">Fuel Station Owner Dashboard</h2>
-        <button
-          onClick={() => document.getElementById("my_modal_6").showModal()}
-          className="px-8 py-2 ml-4 font-semibold transition duration-300 border-2 rounded-full text-green border-green hover:text-white hover:bg-green"
-        >
-          Register Fuel Station
-        </button>
+    <div className="container p-6 mx-auto">
+      <div className="mb-8 text-center">
+        <h2 className="text-2xl font-bold text-primary text-green">
+          Allocated Fuel Quotas for each Station
+        </h2>
       </div>
-      <StationRegisterform />
 
-      {/* Allocated Fuel Quotas */}
-      <div>
-        <section className="mb-8">
-          <h3 className="mb-8 text-xl">Allocated Fuel Quotas for each Station</h3>
-          <div className="flex flex gap-4">
-            {fuelData.map((station) => (
-              <div
-                key={station.station}
-                className="flex flex-col p-3 bg-gray-300 card shadow-x2 w-full md:w-1/2"
-              >
-                <h3 className="text-lg font-bold mb-4">{station.station}</h3>
-                <div className="flex justify-between">
-                {station.fuel.map((fuel)=>(
-                  <div key={fuel.type} className="flex-1 p-3 transition-transform duration-300 transform bg-gray-200 card shadow-x2 hover:scale-105 hover:bg-gray-400 mx-2">
-                    <p>{fuel.type} Quota: {fuel.quota} liters</p>
-                    <p>Used: {fuel.used} liters</p>
-                    <p>Remaining: {fuel.quota - fuel.used} liters</p>
-                
-                    {/* Pie Chart */}
-                    <div className="flex items-center justify-center">
-                      <div className="relative w-full h-auto" style={{ paddingTop: '100%' }}>
-                      <div className="absolute top-0 left-0 w-full h-full">
-                        <Pie
-                          data={prepareChartData(fuel)}
-                          options={{
-                            plugins: {
-                              legend: {
-                                display: true,
-                                labels: {
-                                  font: {
-                                    size: 12,
+      <div className="space-y-12">
+        {fuelData.map((station) => (
+          <div
+            key={station.stationId} // Changed to stationId for unique key
+            className="p-6 mx-4 rounded-md shadow-lg bg-neutral"
+          >
+            <h3 className="mb-6 text-xl font-semibold text-center text-primary text-green">
+              Station: {station.name}
+            </h3>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+              {Object.keys(station)
+                .filter(key => key !== "stationId" && key !== "name" && key !== "address")
+                .map((fuelType) => {
+                  const quota = 10000; // Hardcoded quota value
+                  const fuelUsed = 5000 - station[fuelType]; // Calculate used fuel based on hardcoded quota
+
+                  return (
+                    <div
+                      key={fuelType}
+                      className="p-4 transition-transform transform bg-white rounded-lg shadow-md hover:scale-105"
+                      style={{ minWidth: "200px" }}
+                    >
+                      <p className="mb-2 text-lg font-semibold text-secondary">
+                        {fuelType}
+                      </p>
+                      <p className="text-sm">Quota: {quota} liters</p> {/* Display hardcoded quota */}
+                      <p className="text-sm">Used: {fuelUsed} liters</p>
+                      <p className="text-sm text-green-700">
+                        Remaining: {quota - fuelUsed} liters
+                      </p>
+
+                      <div className="flex justify-center mt-4">
+                        <div
+                          className="relative"
+                          style={{ width: "160px", height: "160px" }}
+                        >
+                          <Pie
+                            data={prepareChartData(fuelUsed, quota)} // Pass used fuel amount and quota
+                            options={{
+                              responsive: true,
+                              maintainAspectRatio: false,
+                              plugins: {
+                                legend: {
+                                  display: true,
+                                  position: "bottom",
+                                  labels: {
+                                    font: { size: 10 },
+                                    color: "#555",
                                   },
-                                  color: "#333",
+                                },
+                                tooltip: {
+                                  usePointStyle: true,
+                                  boxWidth: 15,
+                                  callbacks: {
+                                    labelPointStyle: () => ({
+                                      pointStyle: "circle",
+                                      rotation: 0,
+                                    }),
+                                  },
                                 },
                               },
-                            },
-                          }}
-                        />
-                      </div>
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-                </div>
-              </div>
-            ))}
+                  );
+                })}
+            </div>
           </div>
-        </section>
+        ))}
       </div>
     </div>
   );

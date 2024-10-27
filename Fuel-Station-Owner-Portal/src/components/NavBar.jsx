@@ -2,16 +2,16 @@ import { FaRegUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Modal from "./SignInModal";
 import Profile from "./Profile";
+import { useAuth } from "../providers/AuthProvider";
+import { Link, useLocation } from "react-router-dom";
 
 function NavBar() {
   const [isSticky, setSticky] = useState(false);
-
-  // const user = {
-  //   name: "John Doe", // Example user name
-  //   email: "john.doe@example.com" // Example user email
-  // };
-  const user = undefined;
+  const location = useLocation(); 
+  const defaultPhotoURL = "https://w1.pngwing.com/pngs/743/500/png-transparent-circle-silhouette-logo-user-user-profile-green-facial-expression-nose-cartoon-thumbnail.png"; // Replace with your default photo URL
   
+  const { userName,token } = useAuth();
+  console.log(userName,token);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,37 +29,52 @@ function NavBar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
+  const isActive = (path) => location.pathname === path;
   const navItems = (
     <>
       <li>
-        <a className="text-black" href="/">
-          Home
-        </a>
+        <Link to="/" className={`text-black ${isActive("/") ? "text-[#176B87]" : ""}`}>Home</Link>
+      </li>
+      
+      <li>
+        <Link to="/dashboard" className={`text-black ${isActive("/dashboard") ? "text-[#176B87]" : ""}`}>DashBoard</Link>
       </li>
       <li>
-        <a className="text-black" href="/dashboard">
-          DashBoard
-        </a>
+        <Link to="/help" className={`text-black ${isActive("/help") ? "text-[#176B87]" : ""}`}>Help & Support</Link>
       </li>
-
-      <li>
-        <details>
-          <summary>Management Page</summary>
-          <ul className="p-2">
-            <li>
-              <a href="/order">Vehical Management Page</a>
-            </li>
-            <li>
-              <a href="/accepted-orders">Fuel Station Management Page</a>
-            </li>
-           
-          </ul>
-        </details>
-      </li>
-     
     </>
   );
+
+  // const navItems = (
+  //   <>
+  //     <li>
+  //       <a className="text-black" href="/">
+  //         Home
+  //       </a>
+  //     </li>
+  //     <li>
+  //       <a className="text-black" href="/dashboard">
+  //         DashBoard
+  //       </a>
+  //     </li>
+
+  //     <li>
+  //       <details>
+  //         <summary>Management Page</summary>
+  //         <ul className="p-2">
+  //           <li>
+  //             <a href="/order">Vehical Management Page</a>
+  //           </li>
+  //           <li>
+  //             <a href="/accepted-orders">Fuel Station Management Page</a>
+  //           </li>
+           
+  //         </ul>
+  //       </details>
+  //     </li>
+     
+  //   </>
+  // );
   return (
     <header
       className={`container mx-auto max-w-screen-2xl ${
@@ -107,8 +122,8 @@ function NavBar() {
         </div>
         <div className="navbar-end">        
         {
-          user? (
-            <Profile user={user} />
+          userName? (
+            <Profile user={{ name: userName, photoURL: defaultPhotoURL }} />
           ) : (
             <button
               onClick={() => document.getElementById("my_modal_5").showModal()}

@@ -1,17 +1,43 @@
+
 import { View, Text, Image } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Colors } from "../../constants/Colors";
 import FuelStationInfo from "./FuelStationInfo";
+import { useAuth } from '../../app/provider/AuthProvider';
 
 export default function Header() {
+  const { userName, token, signOut } = useAuth();
+  const [stationData, setStationData] = useState(null);
+
   const user = {
-    fullName: "Jalitha Kheminda",
+    fullName: `${userName}`,
     imageUrl:
-      "https://media.licdn.com/dms/image/D4E03AQFzkf0M0HUsdQ/profile-displayphoto-shrink_200_200/0/1721762203507?e=2147483647&v=beta&t=Tpa_pnGTex4SBjMGlWHE-Wd65Dh3FvGbZa3BTbQ4etc",
-    primaryEmailAddress: {
-      emailAddress: "jalithakheminda@gmail.com",
-    },
+      "https://cdn-icons-png.flaticon.com/128/236/236832.png",
   };
+
+  useEffect(() => {
+    const fetchStationDetails = async () => {
+      try {
+        const response = await fetch("http://192.168.8.100:8081/api/operators/station-details", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setStationData(data);
+        } else {
+          console.error("Failed to fetch station details");
+        }
+      } catch (error) {
+        console.error("Error fetching station details:", error);
+      }
+    };
+
+    fetchStationDetails();
+  }, [token]);
 
   return (
     <View
@@ -25,7 +51,10 @@ export default function Header() {
         marginTop: 0,
       }}
     >
-      <FuelStationInfo  stationName="Central Fuel Station" licenseNumber="ABC123456" />
+      {stationData && (
+        <FuelStationInfo stationName={stationData.name} stationAddress={stationData.address} />
+      )}
+      
       <View
         style={{
           display: "flex",
@@ -36,13 +65,12 @@ export default function Header() {
           backgroundColor: "#fff",
           borderRadius: 8,
           marginTop: 10,
-          marginLeft:170,
-          width:"10%",
-          justifyContent:"center"
+          marginLeft: 170,
+          width: "10%",
+          justifyContent: "center",
         }}
-      >
-        
-      </View>
+      ></View>
+      
       <View
         style={{
           display: "flex",
@@ -78,11 +106,6 @@ export default function Header() {
           </Text>
         </View>
       </View>
-
-
-      
-
-      
     </View>
   );
 }

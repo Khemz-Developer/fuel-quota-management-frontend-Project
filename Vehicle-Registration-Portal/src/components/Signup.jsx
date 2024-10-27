@@ -2,9 +2,11 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const navigate = useNavigate();
 
   // Watch the password field
   const password = watch("password");
@@ -24,6 +26,8 @@ const Signup = () => {
 
       console.log('User registered successfully:', response.data);
       
+      navigate('/'); // Redirect to the homepage
+      
       // Display success alert
       Swal.fire({
         title: 'Success!',
@@ -37,6 +41,7 @@ const Signup = () => {
       
     } catch (error) {
       console.error('There was an error registering the user:', error);
+      
       
       // Display error alert
       Swal.fire({

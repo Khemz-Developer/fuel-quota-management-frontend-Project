@@ -2,11 +2,11 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Colors } from '../../constants/Colors';
 
-const FuelStationInfo = ({ stationName, licenseNumber }: { stationName: string, licenseNumber: string }) => {
+const FuelStationInfo = ({ stationName,  stationAddress }: { stationName: string,  stationAddress: string }) => {
   return (
     <View >
       <Text style={styles.stationName}>- {stationName} -</Text>
-      <Text style={styles.licenseNumber}>License No: {licenseNumber}</Text>
+      <Text style={styles.licenseNumber}>Station Address : {stationAddress}</Text>
     </View>
   );
 };
